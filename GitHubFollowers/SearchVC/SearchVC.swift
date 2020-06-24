@@ -29,6 +29,13 @@ class SearchVC: UIViewController {
         ConfiguringTextField()
         ConfiguringCallToActionButton()
         creatDismissKeyboardTapGesture()
+        
+//
+//        let email = "mahmoud@gmail.com"
+//        print(email.isValidEmail)
+//
+//        let pass = "Ma7oda%_025"
+//        print(pass.isValidPassword)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
