@@ -14,6 +14,7 @@ struct Follower : Codable {
     // [ but ] if there is _ underscore in the var u can write it in the camelCase
     // avatar_url ---> [avatarUrl] only this and codable automaticaly convert
     // sanck_case to camelCase
+    //u need to put his line in the decoder    decoder.keyDecodingStrategy = .convertFromSnakeCase 
     var avatarUrl : String?
     
 }

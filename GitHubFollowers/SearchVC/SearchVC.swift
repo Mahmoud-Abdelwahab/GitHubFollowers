@@ -62,9 +62,9 @@ class SearchVC: UIViewController {
                 return
             }
             
-            let followerListVC = FollowersListVC()
+            let followerListVC      = FollowersListVC()
             followerListVC.userName = userNameTextFiled.text
-            followerListVC.title = userNameTextFiled.text
+            followerListVC.title    = userNameTextFiled.text
             
             navigationController?.pushViewController(followerListVC, animated: true)
         }
@@ -89,7 +89,7 @@ class SearchVC: UIViewController {
     func ConfiguringLogoImageView()  {
         view.addSubview(logoImageView) // this line is equale to using storyboard and this ;line must palced before configuring the view like below
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        logoImageView.image = UIImage(named: "logo")
+        logoImageView.image = UIImage(named: "gitHubAvatar")
         
         // to set th e constrains for imageview
         NSLayoutConstraint.activate([
