@@ -22,7 +22,6 @@
 		BB2D4FFE24A29BE300AF8DA3 /* GFAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D4FFD24A29BE300AF8DA3 /* GFAlertVC.swift */; };
 		BB2D500224A2B6CA00AF8DA3 /* GFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D500124A2B6CA00AF8DA3 /* GFView.swift */; };
 		BB2D500424A31AF000AF8DA3 /* UIViewControler+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D500324A31AF000AF8DA3 /* UIViewControler+Extention.swift */; };
-		BB2D500824A32C8700AF8DA3 /* gitHub.svg in Resources */ = {isa = PBXBuildFile; fileRef = BB2D500724A32C8700AF8DA3 /* gitHub.svg */; };
 		BB2D500B24A3309700AF8DA3 /* Follower.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D500A24A3309700AF8DA3 /* Follower.swift */; };
 		BB2D500D24A3328400AF8DA3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D500C24A3328400AF8DA3 /* User.swift */; };
 /* End PBXBuildFile section */
@@ -45,7 +44,6 @@
 		BB2D4FFD24A29BE300AF8DA3 /* GFAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAlertVC.swift; sourceTree = "<group>"; };
 		BB2D500124A2B6CA00AF8DA3 /* GFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFView.swift; sourceTree = "<group>"; };
 		BB2D500324A31AF000AF8DA3 /* UIViewControler+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewControler+Extention.swift"; sourceTree = "<group>"; };
-		BB2D500724A32C8700AF8DA3 /* gitHub.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = gitHub.svg; sourceTree = "<group>"; };
 		BB2D500A24A3309700AF8DA3 /* Follower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follower.swift; sourceTree = "<group>"; };
 		BB2D500C24A3328400AF8DA3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,9 +85,6 @@
 				BB2D4FE424A1E12F00AF8DA3 /* SearchVC */,
 				BB2D4FE724A1E19500AF8DA3 /* FavouriteList */,
 				BB2D4FF124A23FBE00AF8DA3 /* FollowersVC */,
-				BB2D4FD924A1BA5700AF8DA3 /* Assets.xcassets */,
-				BB2D500724A32C8700AF8DA3 /* gitHub.svg */,
-				BB2D4FDB24A1BA5700AF8DA3 /* LaunchScreen.storyboard */,
 				BB2D4FDE24A1BA5700AF8DA3 /* Info.plist */,
 			);
 			path = GitHubFollowers;
@@ -170,6 +165,8 @@
 			children = (
 				BB2D4FD024A1BA5500AF8DA3 /* AppDelegate.swift */,
 				BB2D4FD224A1BA5500AF8DA3 /* SceneDelegate.swift */,
+				BB2D4FD924A1BA5700AF8DA3 /* Assets.xcassets */,
+				BB2D4FDB24A1BA5700AF8DA3 /* LaunchScreen.storyboard */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -243,7 +240,6 @@
 			files = (
 				BB2D4FDD24A1BA5700AF8DA3 /* LaunchScreen.storyboard in Resources */,
 				BB2D4FDA24A1BA5700AF8DA3 /* Assets.xcassets in Resources */,
-				BB2D500824A32C8700AF8DA3 /* gitHub.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
