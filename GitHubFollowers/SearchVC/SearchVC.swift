@@ -42,7 +42,8 @@ class SearchVC: UIViewController {
         
         /****** ********/
         // hide Navigation bar
-        self.navigationController?.isNavigationBarHidden = true  // this is the best place for it
+      //  self.navigationController?.isNavigationBarHidden = true  // this is the best place for it but this does'nt make animations  the below code make it
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
     }
     
