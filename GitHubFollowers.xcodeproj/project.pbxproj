@@ -28,6 +28,7 @@
 		BB2D501424A390C500AF8DA3 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D501324A390C500AF8DA3 /* ErrorMessage.swift */; };
 		BB2D501724A4099A00AF8DA3 /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D501624A4099A00AF8DA3 /* FollowerCell.swift */; };
 		BB2D501924A40AB800AF8DA3 /* GFAvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D501824A40AB800AF8DA3 /* GFAvatarImageView.swift */; };
+		BB57802E24A4B60C004FCB62 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57802D24A4B60C004FCB62 /* UIHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		BB2D501324A390C500AF8DA3 /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 		BB2D501624A4099A00AF8DA3 /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
 		BB2D501824A40AB800AF8DA3 /* GFAvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAvatarImageView.swift; sourceTree = "<group>"; };
+		BB57802D24A4B60C004FCB62 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				BB2D501324A390C500AF8DA3 /* ErrorMessage.swift */,
+				BB57802D24A4B60C004FCB62 /* UIHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				BB2D4FE624A1E15B00AF8DA3 /* SearchVC.swift in Sources */,
 				BB2D501424A390C500AF8DA3 /* ErrorMessage.swift in Sources */,
 				BB2D501924A40AB800AF8DA3 /* GFAvatarImageView.swift in Sources */,
+				BB57802E24A4B60C004FCB62 /* UIHelper.swift in Sources */,
 				BB2D500B24A3309700AF8DA3 /* Follower.swift in Sources */,
 				BB2D501024A3436200AF8DA3 /* NetworkManger.swift in Sources */,
 				BB2D500424A31AF000AF8DA3 /* UIViewControler+Extention.swift in Sources */,

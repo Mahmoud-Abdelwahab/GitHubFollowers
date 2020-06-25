@@ -52,8 +52,9 @@ class FollowersListVC: UIViewController {
         //        }
         
         // this is the new way using Result in swift 5
-        NetworkManager.shared.getFollowers(for: userName!, page: 1) { (result) in
-            
+        NetworkManager.shared.getFollowers(for: userName!, page: 1) { [weak self] (result) in
+            // [unowned self] unowned force unwrabe self  but [weak self]  weak doe'snt unwrabe self
+                     guard let self = self else{return}
             switch result
             {
             case . success(let followers) :  self.followersList = followers
@@ -68,7 +69,8 @@ class FollowersListVC: UIViewController {
     }
     
     func configureCollectionView()  {
-        collectionView  = UICollectionView(frame: view.bounds, collectionViewLayout: createThreeColumnFlowLayout())
+        collectionView  = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
+        //UIHelper.createThreeColumnFlowLayout(in: view) this is my custom flowlayout
         // here there is no constarins cause the collection view will be full screen
         view.addSubview(collectionView)
         // u must initialize collection view first then add it if u didn't do this then the collction view will be nil
@@ -80,18 +82,7 @@ class FollowersListVC: UIViewController {
     
     
     
-    func createThreeColumnFlowLayout() -> UICollectionViewFlowLayout{
-        let width                     = view.bounds.width
-        let padding : CGFloat         = 12
-        let mininmumSpacing : CGFloat = 10
-        let availableWidth            = width - (padding * 2) - (mininmumSpacing * 2)
-        let itemWidth                 = availableWidth / 3
-        let flowLayout                = UICollectionViewFlowLayout()
-        flowLayout.sectionInset       = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-        flowLayout.itemSize           = CGSize(width: itemWidth, height: itemWidth + 40) //+40 to give extra height for the lable
-        
-        return flowLayout
-    }
+  
     
     
     func configureDataSource() {
