@@ -9,7 +9,8 @@
 import UIKit
 
 class GFAvatarImageView: UIImageView {
-
+   
+    let placeHolderImage =  #imageLiteral(resourceName: "gitHubLogo")
     override init(frame: CGRect) {
         super.init(frame:frame)
         configure()
@@ -19,9 +20,11 @@ class GFAvatarImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(){
+   private func configure(){
         layer.cornerRadius      = 10
         clipsToBounds           = true
+        image                   = placeHolderImage
+        translatesAutoresizingMaskIntoConstraints = false
     }
     
 }

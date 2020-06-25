@@ -88,10 +88,10 @@
 			children = (
 				BB2D501224A3909500AF8DA3 /* Utilities */,
 				BB2D500E24A3433B00AF8DA3 /* Managers */,
+				BB2D4FEC24A1F07600AF8DA3 /* GenericComponents */,
 				BB2D500924A3308500AF8DA3 /* Model */,
 				BB2D500624A3255400AF8DA3 /* Support */,
 				BB2D500524A31AF600AF8DA3 /* UIViewControler+Ext */,
-				BB2D4FEC24A1F07600AF8DA3 /* GenericComponents */,
 				BB2D4FE424A1E12F00AF8DA3 /* SearchVC */,
 				BB2D4FE724A1E19500AF8DA3 /* FavouriteList */,
 				BB2D4FF124A23FBE00AF8DA3 /* FollowersVC */,
@@ -122,8 +122,8 @@
 				BB2D4FFC24A29BB500AF8DA3 /* GFAlert */,
 				BB2D4FED24A1F0B200AF8DA3 /* GFButton.swift */,
 				BB2D4FEF24A1F4EB00AF8DA3 /* GFTextField.swift */,
-				BB2D4FF424A2893000AF8DA3 /* Regex */,
 				BB2D501824A40AB800AF8DA3 /* GFAvatarImageView.swift */,
+				BB2D4FF424A2893000AF8DA3 /* Regex */,
 			);
 			path = GenericComponents;
 			sourceTree = "<group>";

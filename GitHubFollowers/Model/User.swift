@@ -20,4 +20,13 @@ struct User : Codable {
     var followers: Int
     var following: Int
     var createdAt : String
+    
+    
+      /***   hashable returns unique consestant id  for each instatance */
+        
+        /// if u want to make only on variable is hashable  shoe the below code
+        
+    //    func hash(into hasher : inout Hasher) {
+    //        hasher.combine(login)
+    //    }
 }
