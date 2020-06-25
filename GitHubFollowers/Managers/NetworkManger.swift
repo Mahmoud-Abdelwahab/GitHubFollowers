@@ -6,12 +6,15 @@
 //  Copyright © 2020 Mahmoud.kasper.GitHubFollowers. All rights reserved.
 //
 
-import Foundation
+import UIKit
 class NetworkManager {
     // singelton
      
     static let shared = NetworkManager()
-    let baseURL = "https://api.github.com/users/"
+   private let baseURL = "https://api.github.com/users/"
+    
+    let cache   = NSCache<NSString , UIImage>() // this for catching the image
+    
     private init(){}
     
     func  getFollowers(for userName : String , page : Int ,completed: @escaping (Result<[Follower] , GFError>) -> Void)  {
