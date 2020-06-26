@@ -29,6 +29,7 @@
 		BB2D501724A4099A00AF8DA3 /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D501624A4099A00AF8DA3 /* FollowerCell.swift */; };
 		BB2D501924A40AB800AF8DA3 /* GFAvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D501824A40AB800AF8DA3 /* GFAvatarImageView.swift */; };
 		BB57802E24A4B60C004FCB62 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57802D24A4B60C004FCB62 /* UIHelper.swift */; };
+		BB57803024A4ED47004FCB62 /* GFEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57802F24A4ED47004FCB62 /* GFEmptyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		BB2D501624A4099A00AF8DA3 /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
 		BB2D501824A40AB800AF8DA3 /* GFAvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAvatarImageView.swift; sourceTree = "<group>"; };
 		BB57802D24A4B60C004FCB62 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
+		BB57802F24A4ED47004FCB62 /* GFEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFEmptyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +92,7 @@
 			children = (
 				BB2D501224A3909500AF8DA3 /* Utilities */,
 				BB2D500E24A3433B00AF8DA3 /* Managers */,
-				BB2D4FEC24A1F07600AF8DA3 /* GenericComponents */,
+				BB2D4FEC24A1F07600AF8DA3 /* Custom Views */,
 				BB2D500924A3308500AF8DA3 /* Model */,
 				BB2D500624A3255400AF8DA3 /* Support */,
 				BB2D500524A31AF600AF8DA3 /* UIViewControler+Ext */,
@@ -118,7 +120,7 @@
 			path = FavouriteList;
 			sourceTree = "<group>";
 		};
-		BB2D4FEC24A1F07600AF8DA3 /* GenericComponents */ = {
+		BB2D4FEC24A1F07600AF8DA3 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
 				BB2D4FFC24A29BB500AF8DA3 /* GFAlert */,
@@ -127,7 +129,7 @@
 				BB2D501824A40AB800AF8DA3 /* GFAvatarImageView.swift */,
 				BB2D4FF424A2893000AF8DA3 /* Regex */,
 			);
-			path = GenericComponents;
+			path = "Custom Views";
 			sourceTree = "<group>";
 		};
 		BB2D4FF124A23FBE00AF8DA3 /* FollowersVC */ = {
@@ -162,6 +164,7 @@
 			children = (
 				BB2D4FF724A2977400AF8DA3 /* CustomeAlert */,
 				BB2D4FFD24A29BE300AF8DA3 /* GFAlertVC.swift */,
+				BB57802F24A4ED47004FCB62 /* GFEmptyView.swift */,
 			);
 			path = GFAlert;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				BB2D4FF624A2894A00AF8DA3 /* Regex.swift in Sources */,
 				BB2D4FD124A1BA5500AF8DA3 /* AppDelegate.swift in Sources */,
 				BB2D4FD324A1BA5500AF8DA3 /* SceneDelegate.swift in Sources */,
+				BB57803024A4ED47004FCB62 /* GFEmptyView.swift in Sources */,
 				BB2D4FF024A1F4EB00AF8DA3 /* GFTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
