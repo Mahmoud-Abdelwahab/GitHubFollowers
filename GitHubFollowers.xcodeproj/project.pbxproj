@@ -29,6 +29,8 @@
 		BB2D501724A4099A00AF8DA3 /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D501624A4099A00AF8DA3 /* FollowerCell.swift */; };
 		BB2D501924A40AB800AF8DA3 /* GFAvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D501824A40AB800AF8DA3 /* GFAvatarImageView.swift */; };
 		BB34933A24A5CCEB006263E5 /* UserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34933924A5CCEB006263E5 /* UserInfoVC.swift */; };
+		BB34933C24A6287E006263E5 /* UserHeaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34933B24A6287E006263E5 /* UserHeaderVC.swift */; };
+		BB34933E24A62977006263E5 /* GFSecondaryTitleLable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34933D24A62977006263E5 /* GFSecondaryTitleLable.swift */; };
 		BB57802E24A4B60C004FCB62 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57802D24A4B60C004FCB62 /* UIHelper.swift */; };
 		BB57803024A4ED47004FCB62 /* GFEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57802F24A4ED47004FCB62 /* GFEmptyView.swift */; };
 /* End PBXBuildFile section */
@@ -58,6 +60,8 @@
 		BB2D501624A4099A00AF8DA3 /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
 		BB2D501824A40AB800AF8DA3 /* GFAvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAvatarImageView.swift; sourceTree = "<group>"; };
 		BB34933924A5CCEB006263E5 /* UserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoVC.swift; sourceTree = "<group>"; };
+		BB34933B24A6287E006263E5 /* UserHeaderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeaderVC.swift; sourceTree = "<group>"; };
+		BB34933D24A62977006263E5 /* GFSecondaryTitleLable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFSecondaryTitleLable.swift; sourceTree = "<group>"; };
 		BB57802D24A4B60C004FCB62 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		BB57802F24A4ED47004FCB62 /* GFEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFEmptyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,6 +127,7 @@
 		BB2D4FEC24A1F07600AF8DA3 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				BB34933F24A62A28006263E5 /* Lables */,
 				BB2D4FFC24A29BB500AF8DA3 /* GFAlert */,
 				BB2D4FED24A1F0B200AF8DA3 /* GFButton.swift */,
 				BB2D4FEF24A1F4EB00AF8DA3 /* GFTextField.swift */,
@@ -152,8 +157,6 @@
 		BB2D4FF724A2977400AF8DA3 /* CustomeAlert */ = {
 			isa = PBXGroup;
 			children = (
-				BB2D4FF824A297AF00AF8DA3 /* GFTitleLable.swift */,
-				BB2D4FFA24A29AF300AF8DA3 /* GFBodyLable.swift */,
 				BB2D500124A2B6CA00AF8DA3 /* GFView.swift */,
 			);
 			path = CustomeAlert;
@@ -162,8 +165,8 @@
 		BB2D4FFC24A29BB500AF8DA3 /* GFAlert */ = {
 			isa = PBXGroup;
 			children = (
+				BB34934024A63454006263E5 /* CustomViewControlers */,
 				BB2D4FF724A2977400AF8DA3 /* CustomeAlert */,
-				BB2D4FFD24A29BE300AF8DA3 /* GFAlertVC.swift */,
 				BB57802F24A4ED47004FCB62 /* GFEmptyView.swift */,
 			);
 			path = GFAlert;
@@ -239,6 +242,25 @@
 				BB34933924A5CCEB006263E5 /* UserInfoVC.swift */,
 			);
 			path = UserInfoVC;
+			sourceTree = "<group>";
+		};
+		BB34933F24A62A28006263E5 /* Lables */ = {
+			isa = PBXGroup;
+			children = (
+				BB2D4FF824A297AF00AF8DA3 /* GFTitleLable.swift */,
+				BB2D4FFA24A29AF300AF8DA3 /* GFBodyLable.swift */,
+				BB34933D24A62977006263E5 /* GFSecondaryTitleLable.swift */,
+			);
+			path = Lables;
+			sourceTree = "<group>";
+		};
+		BB34934024A63454006263E5 /* CustomViewControlers */ = {
+			isa = PBXGroup;
+			children = (
+				BB2D4FFD24A29BE300AF8DA3 /* GFAlertVC.swift */,
+				BB34933B24A6287E006263E5 /* UserHeaderVC.swift */,
+			);
+			path = CustomViewControlers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,8 +351,10 @@
 				BB2D4FE924A1E1C500AF8DA3 /* FavouriteList.swift in Sources */,
 				BB2D4FF624A2894A00AF8DA3 /* Regex.swift in Sources */,
 				BB2D4FD124A1BA5500AF8DA3 /* AppDelegate.swift in Sources */,
+				BB34933C24A6287E006263E5 /* UserHeaderVC.swift in Sources */,
 				BB2D4FD324A1BA5500AF8DA3 /* SceneDelegate.swift in Sources */,
 				BB57803024A4ED47004FCB62 /* GFEmptyView.swift in Sources */,
+				BB34933E24A62977006263E5 /* GFSecondaryTitleLable.swift in Sources */,
 				BB2D4FF024A1F4EB00AF8DA3 /* GFTextField.swift in Sources */,
 				BB34933A24A5CCEB006263E5 /* UserInfoVC.swift in Sources */,
 			);

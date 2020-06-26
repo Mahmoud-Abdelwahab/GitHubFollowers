@@ -68,6 +68,65 @@ class NetworkManager {
         task.resume()
     }
     
+    
+    
+    
+    
+    
+    // //*************************  get Users ************************************
+     ///***  @escaping means our closure can be called after a period of  time  and make this function  out live untile the  network call finishes  .... closures by default  nonEscaping  but if u make it  escaping u maut put [weal self] to avoid memery leaks
+    func  getUserInfo(for userName : String ,completed: @escaping (Result<User , GFError>) -> Void)  {
+           /* https://api.github.com/users/:userNameHere */
+        let endPoint = baseURL + "\(userName)"
+        //   print(userName)
+           
+          // print(endPoint)
+           guard let url = URL(string: endPoint) else {
+               completed(.failure(.invalidUserName))
+                   return
+           }
+           // the url is valid
+           
+           // the native way to do network request
+           let task = URLSession.shared.dataTask(with: url){data , response , error
+               in
+               
+               if let _ = error{
+                   // there is an error
+                   completed(.failure(.unableToComplete))
+               }
+               
+             
+                  // statusCode 200 mean everything is ok
+               guard let response = response as? HTTPURLResponse , response.statusCode == 200 else {
+                
+                   completed(.failure(.invalidResponse) )
+                   return
+               }
+               
+                
+               guard let data = data else{
+                   completed(.failure(.invalidData))
+                   return
+               }
+                // here there is no error here and we recieved the ressponse
+               
+               
+               do {      // decoder take data from the server and decode it in our object
+                    // encoder take our object and converting it to data
+                   let decoder = JSONDecoder()
+                   decoder.keyDecodingStrategy = .convertFromSnakeCase //// this snakeCase to camelCase converter
+                   let user = try decoder.decode(User.self, from: data)
+                   completed(.success(user))
+               }catch{
+                   completed(.failure(.invalidData))
+               }
+               
+           }
+           task.resume()
+       }
+    
+    
 }
 
 

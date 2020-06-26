@@ -13,6 +13,7 @@ class FollowersListVC: UIViewController {
     var hasMoreFolowers = true
     var followersList : [Follower]=[]
     var filterebFollowers : [Follower] = []
+    var isSearchActive = false
     enum Section{
         case main  // this cause we want one section
     }
@@ -187,7 +188,16 @@ extension FollowersListVC : UICollectionViewDelegate{
     
     ///******************* did selecte row  *************************//
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let activeArray = isSearchActive ? filterebFollowers : followersList
+        let userInfoVC = UserInfoVC()
+        userInfoVC.userName = activeArray[indexPath.row].login
+          //    self.present(userInfoVC, animated: true) print(activeArray[indexPath.row].login)
+        // recomended by appel to put done or cancel button in the modal which u prisent so i will crest nav controler to put buttons over it and presnt it
+        let navigationBar = UINavigationController(rootViewController: userInfoVC)
+    // so here insted of presnsting the userInfoVc i made my custom navcontroler and presnt it  and in userinfoVc i will add my cutom buttons over it
+        present(navigationBar, animated: true)
+    }
       
 }
 
@@ -198,7 +208,7 @@ extension FollowersListVC : UICollectionViewDelegate{
 extension FollowersListVC : UISearchResultsUpdating , UISearchBarDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
-        
+        isSearchActive  = true
         guard let filter = searchController.searchBar.text , !filter.isEmpty  else {return}
         
         filterebFollowers = followersList.filter{$0.login!.lowercased().contains(filter.lowercased())}
@@ -210,7 +220,9 @@ extension FollowersListVC : UISearchResultsUpdating , UISearchBarDelegate {
     //
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        isSearchActive = false
          updataData(on: followersList)
+        
     }
     
 }
