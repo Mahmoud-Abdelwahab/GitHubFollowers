@@ -12,6 +12,7 @@ class FollowersListVC: UIViewController {
     var page = 1
     var hasMoreFolowers = true
     var followersList : [Follower]=[]
+    var filterebFollowers : [Follower] = []
     enum Section{
         case main  // this cause we want one section
     }
@@ -22,6 +23,7 @@ class FollowersListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewControler()
+        configureSearchControler()
         configureCollectionView()
         getFollowers(username: userName!, pagenNumber: page)
         configureDataSource()
@@ -81,7 +83,7 @@ class FollowersListVC: UIViewController {
             }
             
             
-            self.updataData()
+            self.updataData(on: self.followersList)
  // print(followers)  ;  print( "the followers count \(followers.count)")
                 
             case .failure(let error):self.presentGFAlertyOnMainThread(title: "Bad Stuff happened ", message: error.rawValue, buttonTitle: "OK")
@@ -122,15 +124,33 @@ class FollowersListVC: UIViewController {
     //******************** UpdateData *********************//
     //*****************************************************//
     // this function called every time we wanna take a snapshot like reloadData()
-    func updataData(){
+    func updataData(on follower : [Follower]){
         var snapshot = NSDiffableDataSourceSnapshot<Section,Follower>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(self.followersList)
+        snapshot.appendItems(follower)
         //the snapshot remain observing in the background thread so you if u want to access ui us despatch queue to become in the main thread
         // howeever in the WWDC vedio they called this is save to call from background thread but it  case warrninig sor to avoid it use
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: true, completion: nil)}
     }
+    
+    /**********************  Search Controler **************************/
+    //************************************************************/
+    
+    func configureSearchControler() {
+        
+        let mySearchControler                                   = UISearchController()
+        mySearchControler.searchResultsUpdater                  = self // ue need to conform this delegate  wihich is used for detecting any update in thr search feild
+        mySearchControler.searchBar.placeholder                 = "Search By Name"
+        navigationItem.searchController                         = mySearchControler // naviagtion item has a search controler and it's optional
+        mySearchControler.searchBar.delegate                    = self /// for handeling cancel button
+        
+        mySearchControler.obscuresBackgroundDuringPresentation  = false
+        // this for hidding the littel blureing which appear over the collectionView when u type somthing in the searchBar
+        
+        
+    }
+    
     
 }
 
@@ -142,12 +162,11 @@ extension FollowersListVC : UICollectionViewDelegate{
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
        // ** we need to know when did we reach the end of the scroll view
-        let offsetY       = scrollView.contentOffset.y  // offsetY  this is how far u scrolled down
-        let contentHeight = scrollView.contentSize.height // the height of the entire scroll view  the big scrollview may be very large
-        let screenHeight        = scrollView.frame.size.height //the height of the screen only
+        let offsetY              = scrollView.contentOffset.y  // offsetY  this is how far u scrolled down
+        let contentHeight        = scrollView.contentSize.height // the height of the entire scroll view  the big scrollview may be very large
+        let screenHeight         = scrollView.frame.size.height //the height of the screen only
         
-        print("offsetY        =       \(offsetY )")
-        print("contentHeight  = \(contentHeight )")
+        print("offsetY        = \(contentHeight )")
         print("screenHeight   =  \(screenHeight )")
         
         if(offsetY > (contentHeight -  screenHeight))
@@ -155,9 +174,9 @@ extension FollowersListVC : UICollectionViewDelegate{
           
            guard hasMoreFolowers else { return} // has not folowers false page will not incremented and network call will not excuted here
                print(" *********************** Done ")
-                   print("offsetY        =       \(offsetY )")
-                     print("contentHeight  = \(contentHeight )")
-                     print("screenHeight   =  \(screenHeight )")
+                     print("offsetY            =       \(offsetY )")
+                     print("contentHeight      = \(contentHeight )")
+                     print("screenHeight       =  \(screenHeight )")
             page += 1
             getFollowers(username: userName!, pagenNumber: page )
       
@@ -165,5 +184,34 @@ extension FollowersListVC : UICollectionViewDelegate{
         }
     }
     
-   
+    
+    ///******************* did selecte row  *************************//
+    
+    
+      
 }
+
+
+
+////********************* search controler delegate    **********************/
+                                                     // UISearchBarDelegate  to handel cancel button in the search bar
+extension FollowersListVC : UISearchResultsUpdating , UISearchBarDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        guard let filter = searchController.searchBar.text , !filter.isEmpty  else {return}
+        
+        filterebFollowers = followersList.filter{$0.login!.lowercased().contains(filter.lowercased())}
+        // this called map reduce
+        //$0 this is the follower object in every loop in the array
+        updataData(on: filterebFollowers)
+    }
+    
+    //
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+         updataData(on: followersList)
+    }
+    
+}
+
