@@ -25,6 +25,7 @@ class FollowersListVC: UIViewController {
     var collectionView : UICollectionView!
              //   UICollectionViewDiffableDataSource this required hashable protocole to be conformed  enum for section is hashable by default
     var dataSource : UICollectionViewDiffableDataSource<Section , Follower>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewControler()
@@ -32,6 +33,37 @@ class FollowersListVC: UIViewController {
         configureCollectionView()
         getFollowers(username: userName!, pagenNumber: page)
         configureDataSource()
+      
+
+    }
+    
+    @objc func addToFavourite() {
+        print("favourite taped ")
+        showLoadingView()
+        // i need to create follower object for the current user i but i don't have except his user name i need his avatar url also so do netwrok call
+        NetworkManager.shared.getUserInfo(for: userName!) { [weak self] (result) in
+            guard let mySelf = self else{return}
+            mySelf.dismissLoadingView()
+            switch(result){
+            case .success(let user ) :
+                let followerOBJ = Follower(login:user.login, avatarUrl: user.avatarUrl)
+                PersistenceManger.updateWith(favourtie: followerOBJ, actionType: PersistenceActionType.add) {[weak self] error in
+                    guard let self = self else{return}
+                    guard let error = error else{
+                        ///********** if error is nill ---- wh have no error operation successded
+                        self.presentGFAlertyOnMainThread(title: "Success", message: "You have successfully favourited this user 🎉", buttonTitle: "Hooray 🎉")
+                        return
+                    }
+                    ///****** here the erro not nill then we have an error
+                    self.presentGFAlertyOnMainThread(title: "Somthing went wrong", message: error.rawValue, buttonTitle: "OK 😵")
+                }
+                
+            case .failure(let error) :
+                mySelf.presentGFAlertyOnMainThread(title: "Somthing Went Wrong", message: error.rawValue, buttonTitle: "OK")
+            }
+            
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,6 +75,13 @@ class FollowersListVC: UIViewController {
     func configureViewControler(){
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true // to make navigationbar title large
+        
+        //**  i wil creat my cutom barbutton item
+              
+              let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToFavourite))
+              
+              // now we want to add the done button to the navigationBar
+              navigationItem.rightBarButtonItem = addButton
     }
     
     func   getFollowers(username : String , pagenNumber : Int){
