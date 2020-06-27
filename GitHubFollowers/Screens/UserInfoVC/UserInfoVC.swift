@@ -8,15 +8,25 @@
 
 import UIKit
 
+protocol UserInfoVCDelegate :class {
+    func didTapGitHubProfile(for user : User)
+    func didTapGetFollowers(for user : User)
+    //this protocole to listen the button action casue button dosn't exists here in the UserInfoVC
+}
+
 class UserInfoVC: UIViewController {
+    
+    var delegate : FollowerlistVCDelegate!
+    
+    
     let headerView   = UIView() // explanation this header is the container for UserHeaderVC --> casue this UserHeaderVC is type VC i used it to make use of life cycle method and perform the composition which resolve MVC problem  i will add UserHeaderVC to headerView
     
-    let itemViewOne  = UIView()
-    let itemViewTwo  = UIView()
-    let dateLable    = GFBodyLable(textAlignment: .center)
+    let itemViewOne   = UIView()
+    let itemViewTwo   = UIView()
+    let dateLable     = GFBodyLable(textAlignment: .center)
     
     
-    var itemViewsList :[UIView] = [] // to put all this views in it to decrease the code
+    var itemViewsList : [UIView] = [] // to put all this views in it to decrease the code
     
     var userName : String!
     var user : User?
@@ -36,17 +46,7 @@ class UserInfoVC: UIViewController {
             guard let self = self else {return}
             switch result {
             case .success(let user):
-                DispatchQueue.main.async {
-                  //  print(user)// now u r free to use this user this is the result
-                    //self.user = user
-                    self.add(childVC:GFUserHeaderVC(user: user) , to: self.headerView)
-                    
-                    self.add(childVC : GFRepoItemVC(user: user) , to: self.itemViewOne)
-                    
-                    self.add(childVC : GFFollowerItemVC(user : user) , to: self.itemViewTwo)
-                    
-            self.dateLable.text = "GitHub since \(user.createdAt.convertToDisplayFormate())"
-                }
+                DispatchQueue.main.async {self.configureUIElements(with : user )}
                 
                 
                 
@@ -58,6 +58,26 @@ class UserInfoVC: UIViewController {
         }
         
     }
+    
+    
+    func configureUIElements(with user : User) {
+        //  print(user)// now u r free to use this user this is the result
+        //self.user = user
+        self.add(childVC:GFUserHeaderVC(user: user) , to: self.headerView)
+        
+        let gFRepoItemVC = GFRepoItemVC(user: user)
+        gFRepoItemVC.delegate = self
+        
+        self.add(childVC :gFRepoItemVC , to: self.itemViewOne)
+        
+        let gFFollowerItemVC = GFFollowerItemVC(user: user)
+        gFFollowerItemVC.delegate = self
+        
+        self.add(childVC : gFFollowerItemVC , to: self.itemViewTwo)
+        
+        self.dateLable.text = "GitHub since \(user.createdAt.convertToDisplayFormate())"
+    }
+    
     func configureViewControler() {
         
         view.backgroundColor = .systemBackground // this to show ur view if u didn't put a color for background it will appears transparent empty screen
@@ -72,7 +92,7 @@ class UserInfoVC: UIViewController {
     }
     
     func layoutUI()  {
-        let padding : CGFloat = 20
+        let padding    : CGFloat = 20
         let itemHeight : CGFloat = 140
         itemViewsList = [headerView, itemViewOne , itemViewTwo , dateLable]
         
@@ -89,8 +109,8 @@ class UserInfoVC: UIViewController {
             
         }
         
-//        itemViewOne.backgroundColor = .systemPink
-//        itemViewTwo.backgroundColor = .systemPink
+        //        itemViewOne.backgroundColor = .systemPink
+        //        itemViewTwo.backgroundColor = .systemPink
         
         
         NSLayoutConstraint.activate([
@@ -114,7 +134,7 @@ class UserInfoVC: UIViewController {
         
     }
     
-     //this function to add chiled VC to UIView --- then i take this UIView and add it as a component in the main VC like UserInfoVC
+    //this function to add chiled VC to UIView --- then i take this UIView and add it as a component in the main VC like UserInfoVC
     func add(childVC : UIViewController , to containerView : UIView) {
         addChild(childVC)
         containerView.addSubview(childVC.view)
@@ -126,5 +146,32 @@ class UserInfoVC: UIViewController {
     @objc func dismissVC()  {
         self.dismiss(animated: true)
     }
+    
+}
+
+//// handling buttons
+extension UserInfoVC : UserInfoVCDelegate{
+    func didTapGitHubProfile(for user : User) {
+        print("user profile taped ")
+        guard let url = URL(string: user.htmlUrl) else {
+            presentGFAlertyOnMainThread(title: "Invalid URl", message: "The URL attached to this user is invaled ", buttonTitle: "OK!")
+            return
+        }
+        presentSafariVC(with: url) // safari VC now it open in the existing app it does't cose my app to open anther app( safari) but it's now incuded in our app u will botice that the tint color which we put to it green 
+    }
+    
+    func didTapGetFollowers(for user : User) {
+        print("user Followers taped ")
+        
+        guard  user.followers > 0  else {
+            
+            presentGFAlertyOnMainThread(title: "No Followers ", message: "This user has no followers . What a shame 😢 ", buttonTitle: "Ok!")
+            return
+        }
+        delegate.didRequestFollowers(for: user.login!)
+        dismissVC()
+    }
+    
+    
     
 }

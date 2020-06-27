@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SafariServices
 fileprivate var containerView : UIView!   // fileprivate means anything in this file can use this variable [nothing can access it unless in this file ]
 //this containerView is for bluring the screen behind the activity indicator
 /// this extention to make every uiviewcontroler has default alert dialog
@@ -72,5 +72,16 @@ extension UIViewController {
         view.addSubview(emptyStateView)
         
        }
+    
+    
+    /// present safari VC
+    // safari VC now it open in the existing app it does't cose my app to open anther app( safari) but it's now incuded in our app u will botice that the tint color which we put to it green 
+    func presentSafariVC (with url : URL ) {
+       
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.preferredControlTintColor = .systemGreen
+        present(safariVC , animated: true)
+        
+    }
     
 }

@@ -9,6 +9,8 @@
 import UIKit
 
 class GFItemInfoVCSuperClass: UIViewController {
+    
+    weak var delegate : UserInfoVCDelegate!
 
     let stackView       = UIStackView()
     let itemViewOne     = GFItemInfoViewBlock()
@@ -32,8 +34,16 @@ class GFItemInfoVCSuperClass: UIViewController {
         configurBakegroundView()
         layoutUI()
         configureStackView()
+         configureActionButton ()
         
     }
+    
+    
+    func configureActionButton (){
+        actionButton.addTarget(self, action: #selector(actionButtonTaped), for: .touchUpInside)
+    }
+    
+    @objc func actionButtonTaped(){} // i will overried this func in the sub classes[GetRepoItem , GetFollowerItem ]
     
   private  func configurBakegroundView()  {
         view.layer.cornerRadius   = 18

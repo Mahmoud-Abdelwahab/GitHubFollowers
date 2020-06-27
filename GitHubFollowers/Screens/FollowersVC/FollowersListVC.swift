@@ -7,6 +7,10 @@
 //
 
 import UIKit
+// this protocole s for geting followers form UserInfoVC
+protocol FollowerlistVCDelegate : class {
+    func didRequestFollowers(for username : String)
+}
 
 class FollowersListVC: UIViewController {
     var page = 1
@@ -71,7 +75,7 @@ class FollowersListVC: UIViewController {
             switch result
             {
             case . success(let followers) :
-            if followers.count < 100{ self.hasMoreFolowers = false}
+                if followers.count < 100{ self.hasMoreFolowers = false} // self.hasMoreFolowers.toggle() this
             self.followersList.append(contentsOf: followers) // append it to keep all pages in the collectionview
             
             if self.followersList.isEmpty{
@@ -192,6 +196,8 @@ extension FollowersListVC : UICollectionViewDelegate{
         let activeArray = isSearchActive ? filterebFollowers : followersList
         let userInfoVC = UserInfoVC()
         userInfoVC.userName = activeArray[indexPath.row].login
+        userInfoVC.delegate = self 
+        
           //    self.present(userInfoVC, animated: true) print(activeArray[indexPath.row].login)
         // recomended by appel to put done or cancel button in the modal which u prisent so i will crest nav controler to put buttons over it and presnt it
         let navigationBar = UINavigationController(rootViewController: userInfoVC)
@@ -227,3 +233,21 @@ extension FollowersListVC : UISearchResultsUpdating , UISearchBarDelegate {
     
 }
 
+
+//  conforming protocol getFollowers
+
+extension FollowersListVC : FollowerlistVCDelegate {
+    
+    func didRequestFollowers(for username: String) {
+        self.userName = username
+        title         = userName
+        page          = 1
+        followersList.removeAll()
+        filterebFollowers.removeAll()
+        collectionView.setContentOffset(.zero, animated: true)// this make collection view scroll to the top quickly  [if the collectionView scrolled to the botton then u go to userInfo so when u return back to show followers u need to scrol to the top quickly ]
+        
+        getFollowers(username: username, pagenNumber: page)
+    }
+    
+    
+}

@@ -16,7 +16,6 @@
 /// *************** this class contains the top  carde ***************************////
 ///********************************************************************
 class GFFollowerItemVC : GFItemInfoVCSuperClass {
-    
     override func viewDidLoad() {
        super.viewDidLoad() // this is a must to call viewDidLoad from the parent 
         configureItems()
@@ -27,4 +26,7 @@ class GFFollowerItemVC : GFItemInfoVCSuperClass {
         itemViewTwo.set(iteminfoType: .following, withCount: user.following)
         actionButton.set(backgroundColor: .systemGreen, title: "Get Followers")
     }
+    override func actionButtonTaped() {
+           delegate.didTapGetFollowers(for: user)
+       }
 }
