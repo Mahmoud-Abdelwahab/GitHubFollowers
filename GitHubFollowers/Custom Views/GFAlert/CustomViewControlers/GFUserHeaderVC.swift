@@ -64,7 +64,7 @@ class GFUserHeaderVC: UIViewController {
         NSLayoutConstraint.activate([
         
             avatarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: padding),
-            avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             avatarImageView.heightAnchor.constraint(equalToConstant: 90),
             avatarImageView.widthAnchor.constraint(equalToConstant: 90),
             
@@ -72,12 +72,12 @@ class GFUserHeaderVC: UIViewController {
                                                       // the top to be aligned with avatarimage
             usernameLable.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
             usernameLable.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: textAvatarRightPadding),
-            usernameLable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            usernameLable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             usernameLable.heightAnchor.constraint(equalToConstant: 38),
             nameLable.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor, constant: 8) , //  a littel bit tricky right
             
             nameLable.leadingAnchor.constraint(equalTo : avatarImageView.trailingAnchor, constant: textAvatarRightPadding),
-            nameLable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            nameLable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             nameLable.heightAnchor.constraint(equalToConstant: 20),
             
             //  lication image view and location text
@@ -89,12 +89,12 @@ class GFUserHeaderVC: UIViewController {
             //location text
             locationLable.centerYAnchor.constraint(equalTo: locationImageView.centerYAnchor),
             locationLable.leadingAnchor.constraint(equalTo: locationImageView.trailingAnchor, constant: 5),
-            locationLable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            locationLable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             locationLable.heightAnchor.constraint(equalToConstant: 20) ,
             /// setiting bio lable
             bioLable.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: textAvatarRightPadding),
             bioLable.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
-            bioLable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            bioLable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bioLable.heightAnchor.constraint(equalToConstant:60)
         ])
     }
