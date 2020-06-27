@@ -92,6 +92,37 @@ extension FavouriteList : UITableViewDelegate , UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let favorite = favorites[indexPath.row]
+        
+        let followerVC   = FollowersListVC()
+        
+        followerVC.userName  = favorite.login
+        followerVC.title     = favorite.login
+        
+        navigationController?.pushViewController(followerVC, animated: true)
+        // here u can't pop nav cont  why ? because the searchVC and the favoriteVC  each one in a different navigation controler so u must push it
+    }
+    
+    
+    ///************** swip to delete **/////////
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else {return }
+           let favorite = favorites[indexPath.row]
+        // first remove this user from the local array
+             // second remove this user from the DataPersistent NSUserDefault
+        
+        
+        ///** * ** * * ** *** * * you Must remove user from local array first then from th e table row because table row will reload th etableview immidiately if the array  not removed first it will throw exception 
+             favorites.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .left)// delete the row from tthe table view without reloading th e table with 
+     
+        PersistenceManger.updateWith(favourtie: favorite, actionType: .remove) {[weak self] (error) in
+            guard let self = self else{return}
+            guard let error = error else{return}
+            // there is an error
+            self.presentGFAlertyOnMainThread(title: "Unable to remove", message: error.rawValue, buttonTitle: "OK")
+        }
     }
     
     
