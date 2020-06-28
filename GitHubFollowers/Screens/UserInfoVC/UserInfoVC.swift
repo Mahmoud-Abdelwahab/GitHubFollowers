@@ -8,17 +8,21 @@
 
 import UIKit
 
-protocol UserInfoVCDelegate :class {
-    func didTapGitHubProfile(for user : User)
-    func didTapGetFollowers(for user : User)
-    //this protocole to listen the button action casue button dosn't exists here in the UserInfoVC
+// this protocole s for geting followers form UserInfoVC
+protocol UserInfoVCDelegate : class {
+    func didRequestFollowers(for username : String)
 }
+
 
 class UserInfoVC: UIViewController {
     
-    var delegate : FollowerlistVCDelegate!
-    
-    
+    var delegate : UserInfoVCDelegate!
+    /*****************************************/
+    //this scrollVIew i made to solve the iphoneSE samll screen speaces
+    // i made a container view which will hold all the view then add this container viw to the scroll view
+    let scrollView   = UIScrollView()
+    let containerView    = UIView()
+    //******************************************//
     let headerView   = UIView() // explanation this header is the container for UserHeaderVC --> casue this UserHeaderVC is type VC i used it to make use of life cycle method and perform the composition which resolve MVC problem  i will add UserHeaderVC to headerView
     
     let itemViewOne   = UIView()
@@ -33,6 +37,7 @@ class UserInfoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewControler()
+        configureScrollView()
         layoutUI()
         getUserInfo()
         
@@ -59,21 +64,29 @@ class UserInfoVC: UIViewController {
         
     }
     
+    func configureScrollView() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(containerView)
+        scrollView.pinToTheEdges(of: view) // pinToTheEdges this is my custom func which i made in th uiviewExtention to put the ful screen constriants for any superview i send to it
+        containerView.pinToTheEdges(of: scrollView)
+        
+          NSLayoutConstraint.activate([
+            containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: 600) // this is the height fro th e scroll view i will put it with the hieght of iphoneSE
+          ])
+        
+    }
     
     func configureUIElements(with user : User) {
         //  print(user)// now u r free to use this user this is the result
         //self.user = user
         self.add(childVC:GFUserHeaderVC(user: user) , to: self.headerView)
         
-        let gFRepoItemVC = GFRepoItemVC(user: user)
-        gFRepoItemVC.delegate = self
-        
-        self.add(childVC :gFRepoItemVC , to: self.itemViewOne)
-        
-        let gFFollowerItemVC = GFFollowerItemVC(user: user)
-        gFFollowerItemVC.delegate = self
-        
-        self.add(childVC : gFFollowerItemVC , to: self.itemViewTwo)
+        self.add(childVC :GFRepoItemVC(user: user, delegate: self) , to: self.itemViewOne)
+
+        let gfFollowers =  GFFollowersItemVC(user: user)
+            gfFollowers.delegate = self
+        self.add(childVC : gfFollowers , to: self.itemViewTwo)
         
         self.dateLable.text = "GitHub since \(user.createdAt.convertToMonthYearFormate())"
     }
@@ -98,13 +111,13 @@ class UserInfoVC: UIViewController {
         
         for itemView in itemViewsList {
             
-            view.addSubview(itemView)
+            containerView.addSubview(itemView)
             itemView.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
-                itemView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+                itemView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
                 
-                itemView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
+                itemView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding)
             ])
             
         }
@@ -114,9 +127,9 @@ class UserInfoVC: UIViewController {
         
         
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.topAnchor.constraint(equalTo: containerView.topAnchor),
             
-            headerView.heightAnchor.constraint(equalToConstant: 180) ,
+            headerView.heightAnchor.constraint(equalToConstant: 210) ,
             //itemviewone
             itemViewOne.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
             
@@ -128,7 +141,7 @@ class UserInfoVC: UIViewController {
             
             // dateLable
             dateLable.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
-            dateLable.heightAnchor.constraint(equalToConstant: 18)
+            dateLable.heightAnchor.constraint(equalToConstant: 50)
             
         ])
         
@@ -150,17 +163,23 @@ class UserInfoVC: UIViewController {
 }
 
 //// handling buttons
-extension UserInfoVC : UserInfoVCDelegate{
-    func didTapGitHubProfile(for user : User) {
+
+extension UserInfoVC : GFRepoItemVCDelegate{
+    func didTapGitHubProfile(for user: User) {
         print("user profile taped ")
         guard let url = URL(string: user.htmlUrl) else {
             presentGFAlertyOnMainThread(title: "Invalid URl", message: "The URL attached to this user is invaled ", buttonTitle: "OK!")
             return
         }
-        presentSafariVC(with: url) // safari VC now it open in the existing app it does't cose my app to open anther app( safari) but it's now incuded in our app u will botice that the tint color which we put to it green 
+        presentSafariVC(with: url) // safari VC now it open in the existing app it does't cose my app to open anther app( safari) but it's now incuded in our app u will botice that the tint color which we put to it green
     }
     
-    func didTapGetFollowers(for user : User) {
+    
+    
+}
+
+extension UserInfoVC : GFFollowerItemVCDelegate{
+    func didTapGetFollowers(for user: User) {
         print("user Followers taped ")
         
         guard  user.followers > 0  else {
@@ -175,3 +194,4 @@ extension UserInfoVC : UserInfoVCDelegate{
     
     
 }
+

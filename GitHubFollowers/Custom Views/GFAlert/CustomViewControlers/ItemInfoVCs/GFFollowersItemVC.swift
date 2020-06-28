@@ -15,9 +15,31 @@
 
 /// *************** this class contains the top  carde ***************************////
 ///********************************************************************
-class GFFollowerItemVC : GFItemInfoVCSuperClass {
+
+protocol GFFollowerItemVCDelegate :class {
+    func didTapGetFollowers(for user : User)
+    //this protocole to listen the button action casue button dosn't exists here in the UserInfoVC
+}
+
+
+
+class GFFollowersItemVC : GFItemInfoVCSuperClass {
+    
+    weak var delegate : GFFollowerItemVCDelegate!
+    
+    //       init(user :User , delegate : GFFollowerItemVCDelegate ) {
+    //           super.init(user: user)
+    //           self.delegate = delegate
+    //       }
+    //    
+    //    required init?(coder: NSCoder) {
+    //        fatalError("init(coder:) has not been implemented")
+    //    }
+    //    
+    
+    
     override func viewDidLoad() {
-        super.viewDidLoad() // this is a must to call viewDidLoad from the parent 
+        super.viewDidLoad() // this is a must to call viewDidLoad from the parent
         configureItems()
     }
     

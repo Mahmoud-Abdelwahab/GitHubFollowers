@@ -7,10 +7,6 @@
 //
 
 import UIKit
-// this protocole s for geting followers form UserInfoVC
-protocol FollowerlistVCDelegate : class {
-    func didRequestFollowers(for username : String)
-}
 
 class FollowersListVC: UIViewController {
     var page                             = 1
@@ -273,16 +269,16 @@ extension FollowersListVC : UICollectionViewDelegate{
 extension FollowersListVC : UISearchResultsUpdating , UISearchBarDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
-       
+        
         guard let filter = searchController.searchBar.text , !filter.isEmpty  else {
             // this code handle a bug when u delelte  character by character from the search bar unti it becomes empty the displayed array will be the filltered so u will find bug when u click in some of the user cards
             filterebFollowers.removeAll()
             updataData(on: followersList)
-             isSearchActive  = false
+            isSearchActive  = false
             return
             
-             }
-         isSearchActive  = true
+        }
+        isSearchActive  = true
         filterebFollowers = followersList.filter{$0.login!.lowercased().contains(filter.lowercased())}
         // this called map reduce
         //$0 this is the follower object in every loop in the array
@@ -291,18 +287,18 @@ extension FollowersListVC : UISearchResultsUpdating , UISearchBarDelegate {
     
     //
     
-//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-//        isSearchActive = false
-//        updataData(on: followersList)
-//
-//    }
+    //    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    //        isSearchActive = false
+    //        updataData(on: followersList)
+    //
+    //    }
     
 }
 
 
 //  conforming protocol getFollowers
 
-extension FollowersListVC : FollowerlistVCDelegate {
+extension FollowersListVC : UserInfoVCDelegate {
     
     func didRequestFollowers(for username: String) {
         self.userName = username

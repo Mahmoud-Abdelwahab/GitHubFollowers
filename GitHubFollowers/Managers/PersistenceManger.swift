@@ -80,25 +80,24 @@ enum PersistenceManger { //*** here i used enum you can use structe as u like bu
         retriveFavouries { (result) in
             switch(result)
             {
-            case .success(let favouriteArray) : // here is want to know the action type
-                var retrivedFavourties = favouriteArray // i want to append in this array but it's immuntable so i puted it in anthor var
-                
+            case .success(var favouriteArray) : // here is want to know the action type
+            
                 switch actionType {
                 case .add:
                     // after adding i want to check if it exists before or not
-                    guard  !retrivedFavourties.contains(favourtie) else {
+                    guard  !favouriteArray.contains(favourtie) else {
                         completion(.alreadyInFavourite)
                         return
                     }
                     //the favourite not exists here now u can save  this user
                     // first add the new user to favouriteArray
-                    retrivedFavourties.append(favourtie)
+                    favouriteArray.append(favourtie)
                     
                 case .remove:
-                    retrivedFavourties.removeAll { $0.login == favourtie.login }
+                    favouriteArray.removeAll { $0.login == favourtie.login }
                 }
                 // here after performing add or remove operations then u need to save it finally
-                completion( savingFavourite(favourites: retrivedFavourties) )
+                completion( savingFavourite(favourites: favouriteArray) )
                 
             case .failure(let error) : completion(error)
             }

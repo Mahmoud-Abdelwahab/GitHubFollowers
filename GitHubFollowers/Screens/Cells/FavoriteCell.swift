@@ -25,8 +25,7 @@ class FavoriteCell: UITableViewCell {
     }
     
     func configure(){
-        addSubview(avatarImageView)
-        addSubview(userNameLable)
+        addSubviews(avatarImageView,userNameLable)
         // then to add the accessoray which like [>] at the end on the cell write below code
         accessoryType               = .disclosureIndicator  // disclosureIndicator this show arrow which mean tap here and there is more to see
         let padding : CGFloat       = 12

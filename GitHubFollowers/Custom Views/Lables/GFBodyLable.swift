@@ -21,12 +21,13 @@ class GFBodyLable: UILabel {
     }
     
     private func configure(){
-        textColor = .secondaryLabel
-        adjustsFontSizeToFitWidth = true
-        minimumScaleFactor        = 0.9
-        lineBreakMode             = .byWordWrapping// this make text is execed line be like   helloMyNameis mah...
-        translatesAutoresizingMaskIntoConstraints  = false
-        font                      = UIFont.preferredFont(forTextStyle: .body)
+        textColor                                    = .secondaryLabel
+        adjustsFontSizeToFitWidth                    = true
+        minimumScaleFactor                           = 075
+        lineBreakMode                                = .byWordWrapping// this make text is execed line be like helloMyNameis mah...
+        translatesAutoresizingMaskIntoConstraints    = false // this make text ne dynamic if u minimiz or max the text
+        font                                         = UIFont.preferredFont(forTextStyle: .body) // this give us dynamic type
+        adjustsFontForContentSizeCategory            = true
         
     }
     

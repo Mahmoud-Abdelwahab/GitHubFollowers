@@ -47,7 +47,7 @@ class FavouriteList: UIViewController {
                 }else{  self.favorites = favouriteList
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
-                        //** here in case it enter empty stats first which means the user has no followers so u show showEmpltyStateView ok now showEmpltyStateView is on the top of the table view --- tableView is not hidden under it  if the user favorite someone and come back to see the favorite list u need to return table view on the top again to see the tableview see the vcode below
+                        //** here in case it enter empty stats first which means the user has no followers so u show showEmpltyStateView ok now showEmpltyStateView is on the top of the table view --- tableView is now hidden under it  if the user favorite someone and come back to see the favorite list u need to return table view on the top again to see the tableview see the vcode below
                         self.view.bringSubviewToFront(self.tableView)
                     }
                 }
@@ -67,6 +67,7 @@ class FavouriteList: UIViewController {
         tableView.rowHeight     = 80
         tableView.delegate      = self
         tableView.dataSource    = self
+        tableView.removeExcessCells() // this my cutome func in UITableview+Ext to remove the extra cell
         /// *************** registering cell *****************//
         tableView.register(FavoriteCell.self, forCellReuseIdentifier: FavoriteCell.reuseID)
     }
@@ -108,18 +109,23 @@ extension FavouriteList : UITableViewDelegate , UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else {return }
-        let favorite = favorites[indexPath.row]
+  
         // first remove this user from the local array
         // second remove this user from the DataPersistent NSUserDefault
         
         
         ///** * ** * * ** *** * * you Must remove user from local array first then from th e table row because table row will reload th etableview immidiately if the array  not removed first it will throw exception
-        favorites.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .left)// delete the row from tthe table view without reloading th e table with 
+       
         
-        PersistenceManger.updateWith(favourtie: favorite, actionType: .remove) {[weak self] (error) in
+        PersistenceManger.updateWith(favourtie: favorites[indexPath.row], actionType: .remove) {[weak self] (error) in
             guard let self = self else{return}
-            guard let error = error else{return}
+            guard let error = error else{
+        // there is no error here so detete from local storage first then the presestant
+                self.favorites.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .left)// delete the row from tthe table view without reloading th e table with
+                return
+                
+            }
             // there is an error
             self.presentGFAlertyOnMainThread(title: "Unable to remove", message: error.rawValue, buttonTitle: "OK")
         }

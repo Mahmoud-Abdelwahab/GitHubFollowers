@@ -48,12 +48,14 @@ class GFUserHeaderVC: UIViewController {
     }
     
     func addSubViews() {
-        view.addSubview(avatarImageView)
-        view.addSubview(usernameLable)
-        view.addSubview(nameLable)
-        view.addSubview(locationImageView)
-        view.addSubview(locationLable)
-        view.addSubview(bioLable)
+        // i used my custom function addSubviews()
+               view.addSubviews(avatarImageView ,usernameLable ,nameLable ,locationImageView ,locationLable,bioLable)
+//        view.addSubview(avatarImageView)
+//        view.addSubview(usernameLable)
+//        view.addSubview(nameLable)
+//        view.addSubview(locationImageView)
+//        view.addSubview(locationLable)
+//        view.addSubview(bioLable)
     }
     
     func layoutUI(){
@@ -95,7 +97,7 @@ class GFUserHeaderVC: UIViewController {
             bioLable.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: textAvatarRightPadding),
             bioLable.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             bioLable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bioLable.heightAnchor.constraint(equalToConstant:60)
+            bioLable.heightAnchor.constraint(equalToConstant:90)
         ])
     }
     
