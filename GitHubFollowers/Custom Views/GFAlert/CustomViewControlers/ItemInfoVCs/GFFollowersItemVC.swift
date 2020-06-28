@@ -17,6 +17,7 @@
 ///********************************************************************
 
 protocol GFFollowerItemVCDelegate :class {
+    
     func didTapGetFollowers(for user : User)
     //this protocole to listen the button action casue button dosn't exists here in the UserInfoVC
 }
@@ -35,7 +36,7 @@ class GFFollowersItemVC : GFItemInfoVCSuperClass {
     //    required init?(coder: NSCoder) {
     //        fatalError("init(coder:) has not been implemented")
     //    }
-    //    
+    // i don't know why this code case error however it's working in it's brother
     
     
     override func viewDidLoad() {

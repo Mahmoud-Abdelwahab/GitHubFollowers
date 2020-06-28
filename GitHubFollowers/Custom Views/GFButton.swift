@@ -17,6 +17,7 @@ class GFButton: UIButton {
         Configure()
         
     }
+     
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -26,15 +27,15 @@ class GFButton: UIButton {
     
     convenience init(backgroundColor : UIColor , title : String) {
         self.init(frame : .zero)
-        self.backgroundColor  = backgroundColor
+        self.backgroundColor                        = backgroundColor
         self.setTitle(title, for: .normal)
         
     }
     
     private func Configure(){
         layer.cornerRadius                          = 10
-        setTitleColor(.white, for: .normal)
         titleLabel?.font                            = UIFont.preferredFont(forTextStyle: .headline)
+        setTitleColor(.white, for: .normal)
         translatesAutoresizingMaskIntoConstraints   = false // this to make u use auto layout
         
     }

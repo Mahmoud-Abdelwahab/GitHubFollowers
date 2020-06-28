@@ -9,21 +9,21 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
-
+    
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-
+        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         // here we want to add two Navigation controler to hold two VCs the add them to uitabbar in it's array
-//        let searchNavigationControler = UINavigationController(rootViewController: SearchVC())
-//        let favouriteNC = UINavigationController(rootViewController: FavouriteList())
-         // after creating two navigation controler now we want to add them to uitabBarControler in it's array
-   
-//        let tabBar = UITabBarController()
-//        tabBar.viewControllers = [searchNavigationControler , favouriteNC]
+        //        let searchNavigationControler = UINavigationController(rootViewController: SearchVC())
+        //        let favouriteNC = UINavigationController(rootViewController: FavouriteList())
+        // after creating two navigation controler now we want to add them to uitabBarControler in it's array
+        
+        //        let tabBar = UITabBarController()
+        //        tabBar.viewControllers = [searchNavigationControler , favouriteNC]
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)// make it full screen
         
@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         /// now we wwant to set root viewcontroler
         
-       // window?.rootViewController = ViewController() // this ViewControler which is  u want to be initial one
+        // window?.rootViewController = ViewController() // this ViewControler which is  u want to be initial one
         
         
         //*****  not that  you can change ViewController() as u want also u can but nav bar viewcontroler here to mage all app
@@ -42,16 +42,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         configureNavigationBar()
     }
-
     
-    
-  
     
     func configureNavigationBar()  {
         UINavigationBar.appearance().tintColor = .systemGreen
     }
-    
-    
     
     
     //*******************//
@@ -61,28 +56,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
     }
-
+    
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
     }
-
+    
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
     }
-
+    
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
     }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
+    
+    
 }
 

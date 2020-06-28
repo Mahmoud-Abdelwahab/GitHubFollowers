@@ -9,17 +9,19 @@
 import UIKit
 
 class FollowersListVC: UIViewController {
+    
     var page                             = 1
     var hasMoreFolowers                  = true
     var followersList : [Follower]       = []
     var filterebFollowers : [Follower]   = []
     var isSearchActive                   = false
     var isLoadingMoreFollowers           = false
-    enum Section{
-        case main  // this cause we want one section
-    }
     var userName : String?
     var collectionView : UICollectionView!
+    
+    enum Section{ case main }  // this cause we want one section
+    
+    
     //   UICollectionViewDiffableDataSource this required hashable protocole to be conformed  enum for section is hashable by default
     var dataSource : UICollectionViewDiffableDataSource<Section , Follower>!
     
@@ -29,11 +31,11 @@ class FollowersListVC: UIViewController {
         self.title    = username
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
         //this is the storyboard inintializer
     }
-    
     
     
     override func viewDidLoad() {
@@ -43,9 +45,15 @@ class FollowersListVC: UIViewController {
         configureCollectionView()
         getFollowers(username: userName!, pagenNumber: page)
         configureDataSource()
-        
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //navigationController?.isNavigationBarHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: true)
         
     }
+    
     
     @objc func addToFavourite() {
         print("favourite taped ")
@@ -56,18 +64,7 @@ class FollowersListVC: UIViewController {
             guard let mySelf = self else{return}
             mySelf.dismissLoadingView()
             switch(result){
-            case .success(let user ) :
-                let followerOBJ = Follower(login:user.login, avatarUrl: user.avatarUrl)
-                PersistenceManger.updateWith(favourtie: followerOBJ, actionType: PersistenceActionType.add) {[weak self] error in
-                    guard let self = self else{return}
-                    guard let error = error else{
-                        ///********** if error is nill ---- wh have no error operation successded
-                        self.presentGFAlertyOnMainThread(title: "Success", message: "You have successfully favourited this user 🎉", buttonTitle: "Hooray 🎉")
-                        return
-                    }
-                    ///****** here the erro not nill then we have an error
-                    self.presentGFAlertyOnMainThread(title: "Somthing went wrong", message: error.rawValue, buttonTitle: "OK 😵")
-                }
+            case .success(let user ) : mySelf.addUserToFavortie(user : user)
                 
             case .failure(let error) :
                 mySelf.presentGFAlertyOnMainThread(title: "Somthing Went Wrong", message: error.rawValue, buttonTitle: "OK")
@@ -77,11 +74,23 @@ class FollowersListVC: UIViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        //navigationController?.isNavigationBarHidden = false
-        navigationController?.setNavigationBarHidden(false, animated: true)
+    
+    func addUserToFavortie(user : User)  {
+        
+        let followerOBJ = Follower(login:user.login, avatarUrl: user.avatarUrl)
+        PersistenceManger.updateWith(favourtie: followerOBJ, actionType: PersistenceActionType.add) {[weak self] error in
+            guard let self = self else{return}
+            guard let error = error else{
+                ///********** if error is nill ---- wh have no error operation successded
+                self.presentGFAlertyOnMainThread(title: "Success", message: "You have successfully favourited this user 🎉", buttonTitle: "Hooray 🎉")
+                return
+            }
+            ///****** here the erro not nill then we have an error
+            self.presentGFAlertyOnMainThread(title: "Somthing went wrong", message: error.rawValue, buttonTitle: "OK 😵")
+        }
         
     }
+    
     
     func configureViewControler(){
         view.backgroundColor = .systemBackground
@@ -94,6 +103,7 @@ class FollowersListVC: UIViewController {
         // now we want to add the done button to the navigationBar
         navigationItem.rightBarButtonItem = addButton
     }
+    
     
     func   getFollowers(username : String , pagenNumber : Int){
         /***     this is th e old way */
@@ -124,22 +134,7 @@ class FollowersListVC: UIViewController {
             
             switch result
             {
-            case . success(let followers) :
-                if followers.count < 100{ self.hasMoreFolowers = false} // self.hasMoreFolowers.toggle() this
-                self.followersList.append(contentsOf: followers) // append it to keep all pages in the collectionview
-                
-                if self.followersList.isEmpty{
-                    // if the appended array is emplty show my custom emptyview
-                    let message = "This User Dos'nt have any Followers😮"
-                    DispatchQueue.main.async {
-                        self.showEmpltyStateView(with: message, in: self.view)
-                        return
-                    }
-                }
-                
-                
-                self.updataData(on: self.followersList)
-                // print(followers)  ;  print( "the followers count \(followers.count)")
+            case . success(let followers) : self.updateUI(with: followers)
                 
             case .failure(let error):self.presentGFAlertyOnMainThread(title: "Bad Stuff happened ", message: error.rawValue, buttonTitle: "OK")
             }
@@ -147,6 +142,26 @@ class FollowersListVC: UIViewController {
             
         }
     }
+    
+    
+    func updateUI(with followers : [Follower])  {
+        if followers.count < 100{ self.hasMoreFolowers = false} // self.hasMoreFolowers.toggle() this
+        self.followersList.append(contentsOf: followers) // append it to keep all pages in the collectionview
+        
+        if self.followersList.isEmpty{
+            // if the appended array is emplty show my custom emptyview
+            let message = "This User Dos'nt have any Followers😮"
+            DispatchQueue.main.async {
+                self.showEmpltyStateView(with: message, in: self.view)
+                return
+            }
+        }
+        
+        
+        self.updataData(on: self.followersList)
+        // print(followers)  ;  print( "the followers count \(followers.count)")
+    }
+    
     
     func configureCollectionView()  {
         collectionView  = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
@@ -159,11 +174,6 @@ class FollowersListVC: UIViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier:FollowerCell.reuseID)
     }
-    
-    
-    
-    
-    
     
     
     func configureDataSource() {
@@ -191,6 +201,7 @@ class FollowersListVC: UIViewController {
     
     /**********************  Search Controler **************************/
     //************************************************************/
+    
     
     func configureSearchControler() {
         
@@ -221,8 +232,8 @@ extension FollowersListVC : UICollectionViewDelegate{
         let contentHeight        = scrollView.contentSize.height // the height of the entire scroll view  the big scrollview may be very large
         let screenHeight         = scrollView.frame.size.height //the height of the screen only
         
-        print("offsetY        = \(contentHeight )")
-        print("screenHeight   =  \(screenHeight )")
+        print("offsetY           = \(contentHeight )")
+        print("screenHeight      =  \(screenHeight )")
         
         if(offsetY > (contentHeight -  screenHeight))
         {
@@ -230,9 +241,9 @@ extension FollowersListVC : UICollectionViewDelegate{
             guard hasMoreFolowers , !isLoadingMoreFollowers else { return} // has not folowers false page will not incremented and network call will not excuted here
             // this guard will prevent chow internet pagination bug 
             print(" *********************** Done ")
-            print("offsetY            =       \(offsetY )")
-            print("contentHeight      = \(contentHeight )")
-            print("screenHeight       =  \(screenHeight )")
+            print("offsetY        =       \(offsetY )")
+            print("contentHeight  = \(contentHeight )")
+            print("screenHeight   =  \(screenHeight )")
             page += 1
             getFollowers(username: userName!, pagenNumber: page )
             
@@ -303,6 +314,7 @@ extension FollowersListVC : UserInfoVCDelegate {
     func didRequestFollowers(for username: String) {
         self.userName = username
         title         = userName
+        
         page          = 1
         followersList.removeAll()
         filterebFollowers.removeAll()
@@ -314,6 +326,5 @@ extension FollowersListVC : UserInfoVCDelegate {
         
         getFollowers(username: username, pagenNumber: page)
     }
-    
     
 }

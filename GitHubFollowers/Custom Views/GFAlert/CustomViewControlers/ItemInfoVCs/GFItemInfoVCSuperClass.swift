@@ -10,24 +10,22 @@ import UIKit
 
 class GFItemInfoVCSuperClass: UIViewController {
     
-   
-
     let stackView       = UIStackView()
     let itemViewOne     = GFItemInfoViewBlock()
     let itemViewTwo     = GFItemInfoViewBlock()
     let actionButton    = GFButton()
-    
-    
+
     var user :  User!
 
-        init(user:User){
+    init(user:User){
            super.init(nibName : nil , bundle : nil)
            self.user  = user
              }
        
-       required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
            fatalError("init(coder:) has not been implemented")
        }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,21 +40,25 @@ class GFItemInfoVCSuperClass: UIViewController {
     func configureActionButton (){
         actionButton.addTarget(self, action: #selector(actionButtonTaped), for: .touchUpInside)
     }
+
     
     @objc func actionButtonTaped(){} // i will overried this func in the sub classes[GetRepoItem , GetFollowerItem ]
     
-  private  func configurBakegroundView()  {
-        view.layer.cornerRadius   = 18
-              view.backgroundColor      = .secondarySystemBackground // this give a light gray background  color
+    
+    private  func configurBakegroundView()  {
+        view.layer.cornerRadius              = 18
+              view.backgroundColor           = .secondarySystemBackground // this give a light gray background  color
     }
    
+    
     private func configureStackView(){
         stackView.axis                       = .horizontal
         stackView.distribution               = .fillEqually
-       // stackView.spacing                    = 10
+       // stackView.spacing                  = 10
         stackView.addArrangedSubview(itemViewOne)
         stackView.addArrangedSubview(itemViewTwo)
     }
+    
     
     private func layoutUI(){
         view.addSubviews(stackView,actionButton)

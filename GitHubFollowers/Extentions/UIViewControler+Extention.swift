@@ -8,11 +8,13 @@
 
 import UIKit
 import SafariServices
+
 fileprivate var containerView : UIView!   // fileprivate means anything in this file can use this variable [nothing can access it unless in this file ]
 //this containerView is for bluring the screen behind the activity indicator
 /// this extention to make every uiviewcontroler has default alert dialog
 
 extension UIViewController {
+    
     func presentGFAlertyOnMainThread(title : String , message :String , buttonTitle : String ){
         DispatchQueue.main.async {
             let alertVC = GFAlertVC(alertTitle: title, message: message, buttonTitle: buttonTitle)

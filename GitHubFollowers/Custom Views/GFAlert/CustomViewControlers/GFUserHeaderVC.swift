@@ -9,12 +9,13 @@
 import UIKit
 
 class GFUserHeaderVC: UIViewController {
-    let avatarImageView = GFAvatarImageView(frame: .zero)
-    let usernameLable   = GFTitleLable(textAlignment: .left, fontSize: 34) //34 then height will be 38
-    let nameLable       =  GFSecondaryTitleLable(fontSize: 18)
-    let locationImageView = UIImageView()
-    let locationLable      = GFSecondaryTitleLable(fontSize: 18)
-    let bioLable        = GFBodyLable(textAlignment: .left)
+    
+    let avatarImageView      = GFAvatarImageView(frame: .zero)
+    let usernameLable        = GFTitleLable(textAlignment: .left, fontSize: 34) //34 then height will be 38
+    let nameLable            =  GFSecondaryTitleLable(fontSize: 18)
+    let locationImageView    = UIImageView()
+    let locationLable        = GFSecondaryTitleLable(fontSize: 18)
+    let bioLable             = GFBodyLable(textAlignment: .left)
     
     var user :  User!
     
@@ -23,20 +24,22 @@ class GFUserHeaderVC: UIViewController {
         self.user  = user
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubViews()
+        view.addSubviews(avatarImageView ,usernameLable ,nameLable ,locationImageView ,locationLable,bioLable)
         layoutUI()
         configureUIElements()
     }
+    
+    
     func configureUIElements(){
-        downloadAvatarImage()
+        avatarImageView.downloadAvatarImage(fromURL: user!.avatarUrl!) //safe unwraping
         usernameLable.text = user.login
         nameLable.text = user.name ?? ""
         locationLable.text = user.location ?? "No Location"
@@ -47,16 +50,6 @@ class GFUserHeaderVC: UIViewController {
         
     }
     
-    func addSubViews() {
-        // i used my custom function addSubviews()
-               view.addSubviews(avatarImageView ,usernameLable ,nameLable ,locationImageView ,locationLable,bioLable)
-//        view.addSubview(avatarImageView)
-//        view.addSubview(usernameLable)
-//        view.addSubview(nameLable)
-//        view.addSubview(locationImageView)
-//        view.addSubview(locationLable)
-//        view.addSubview(bioLable)
-    }
     
     func layoutUI(){
         let padding : CGFloat = 20
@@ -101,11 +94,5 @@ class GFUserHeaderVC: UIViewController {
         ])
     }
     
-    func  downloadAvatarImage(){
-        NetworkManager.shared.downloadImage(from: user.avatarUrl!) {[weak self] (image) in
-            guard let self = self else {return}
-            DispatchQueue.main.async {self.avatarImageView.image = image}
-        }
-    }
     
 }

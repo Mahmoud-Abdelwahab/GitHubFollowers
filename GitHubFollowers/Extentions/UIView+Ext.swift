@@ -13,7 +13,7 @@ extension UIView {
     func addSubviews(_ views : UIView...) {
         /// UIView... this means that u can pass anynumber f the parameters from this type
         for view in views {addSubview(view) }
-     }
+    }
     
     
     /********** General constraints pin view to the edgs  i used it  to constraints the scroll view  ******************/

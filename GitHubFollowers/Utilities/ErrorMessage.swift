@@ -6,19 +6,14 @@
 //  Copyright © 2020 Mahmoud.kasper.GitHubFollowers. All rights reserved.
 //
 
-import Foundation
 
 /// the new way
 enum  GFError : String , Error {
     
     case invalidUserName    = "This userName created an invaled request 😏 . please try again ."
-    
     case unableToComplete   = "Unable to complete request please check your Internet connection 😏"
-    
     case invalidResponse    = "Invalid Response from the server . Please try again "
-    
     case invalidData        = "the data received from the server is invaled"
-    
     case unableToFavourite  =  "There was an error favouriting this user 😵. Please try again ."
     case alreadyInFavourite = " You are alreadt like this user 🤔 "
 }

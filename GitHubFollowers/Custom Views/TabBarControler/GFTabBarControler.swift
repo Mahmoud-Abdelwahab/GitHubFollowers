@@ -18,22 +18,22 @@ class GFTabBarControler: UITabBarController {
     
     //  to be more clear i separt them u can put then in onne funtion and pass some 4 params to it
     func CreatSearchNavigationControler() -> UINavigationController {
-        let searchVc = SearchVC()
-        
-        searchVc.title = "Search"
-        
-        searchVc.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        let searchVc                   = SearchVC()
+           
+        searchVc.title                 = "Search"
+           
+        searchVc.tabBarItem            = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         
         return UINavigationController(rootViewController: searchVc)
         
     }
     
     func CreatFavouriteNavigationControler() -> UINavigationController {
-        let favoriteVC = FavouriteList()
-        
-        favoriteVC.title = "Search"
-        
-        favoriteVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        let favoriteVC                  = FavouriteList()
+            
+        favoriteVC.title                = "Search"
+            
+        favoriteVC.tabBarItem           = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
         
         return UINavigationController(rootViewController: favoriteVC)
         

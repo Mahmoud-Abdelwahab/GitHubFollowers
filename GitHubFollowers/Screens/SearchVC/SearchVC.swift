@@ -14,7 +14,7 @@ class SearchVC: UIViewController {
     
     let userNameTextFiled        = GFTextField()
     
-    let CallToActionButton       = GFButton(backgroundColor: .systemGreen, title: "Get Followera")
+    let CallToActionButton       = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
     
     
     // this is computed property
@@ -38,6 +38,8 @@ class SearchVC: UIViewController {
         //        let pass = "Ma7oda%_025"
         //        print(pass.isValidPassword)
     }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -56,6 +58,7 @@ class SearchVC: UIViewController {
         view.addGestureRecognizer(tap)
     }
     
+    
     @objc func pushFollowerListVc()
     {
         guard isUserNameEmpty else {
@@ -73,38 +76,39 @@ class SearchVC: UIViewController {
         
         navigationController?.pushViewController(followerListVC, animated: true)
     }
+    
+    
     func  ConfiguringCallToActionButton() {
         view.addSubview(CallToActionButton)
         
         CallToActionButton.addTarget(self, action: #selector(pushFollowerListVc), for: .touchUpInside)
         
         CallToActionButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([  CallToActionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50) ,
+        NSLayoutConstraint.activate([
+            CallToActionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50) ,
                                        
-                                       CallToActionButton.leadingAnchor.constraint(equalTo:view.leadingAnchor, constant: 50)
-            ,
-                                       
-                                       CallToActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50) ,
-                                       CallToActionButton.heightAnchor.constraint(equalToConstant: 50) ])
-        
-        
+            CallToActionButton.leadingAnchor.constraint(equalTo:view.leadingAnchor, constant: 50),
+            CallToActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50) ,
+            CallToActionButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
         
     }
+    
     
     func ConfiguringLogoImageView()  {
         view.addSubview(logoImageView) // this line is equale to using storyboard and this ;line must palced before configuring the view like below
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        logoImageView.image = Images.ghLogo ////  I made  enum contains all images in the constant file
+        logoImageView.image    = Images.ghLogo ////  I made  enum contains all images in the constant file
         
         
         let topConstantConstraints : CGFloat = DeviceTypes.isiPhoneSE||DeviceTypes.isiPhone8Zoomed ? 20 :80
         // i will change top constatints according to the device type
         
-        logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstantConstraints).isActive = true
+     
         // to set th e constrains for imageview
         NSLayoutConstraint.activate([
             // logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
-            
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstantConstraints),
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             logoImageView.heightAnchor.constraint(equalToConstant: 200),

@@ -7,7 +7,9 @@
 //
 
 import UIKit
+
 enum UIHelper { // enum more safe than struct  because enum can't be initialized  and we don't want  to make somthing like tis let helper = UIHelper()
+    
     static func createThreeColumnFlowLayout(in view : UIView) -> UICollectionViewFlowLayout{
         let width                     = view.bounds.width
         let padding : CGFloat         = 12

@@ -29,19 +29,20 @@ class GFTitleLable: UILabel {
         configure()
     }
     
+    
     convenience init(textAlignment : NSTextAlignment , fontSize : CGFloat) {
         self.init(frame : .zero ) // here self.init casue it call it'd default one not a super
-        self.textAlignment = textAlignment
-        self.font = UIFont.systemFont(ofSize: fontSize, weight: .bold)
+        self.textAlignment          = textAlignment
+        self.font                   = UIFont.systemFont(ofSize: fontSize, weight: .bold)
         //configure()
     }
     
     
     private func configure(){
         textColor = .label
-        adjustsFontSizeToFitWidth = true
-        minimumScaleFactor        = 0.9
-        lineBreakMode             = .byTruncatingTail // this make text is execed line be like   helloMyNameis mah...
+        adjustsFontSizeToFitWidth   = true
+        minimumScaleFactor          = 0.9
+        lineBreakMode               = .byTruncatingTail // this make text is execed line be like   helloMyNameis mah...
         translatesAutoresizingMaskIntoConstraints  = false
         
     }

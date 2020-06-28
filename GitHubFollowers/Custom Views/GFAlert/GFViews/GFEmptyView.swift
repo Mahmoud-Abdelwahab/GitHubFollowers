@@ -13,16 +13,19 @@ class GFEmptyView: UIView {
     let messageLable   = GFTitleLable(textAlignment: .center, fontSize: 28)
     let logoImageView  = UIImageView()
     
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         configure()
         
     }
     
+    
     convenience init(message : String) {
         self.init(frame:.zero)
         messageLable.text = message
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -39,18 +42,23 @@ class GFEmptyView: UIView {
     
     func configureMessageLable()  {
         addSubview(messageLable)
+        
         messageLable.numberOfLines                 = 3
         messageLable.textColor                     = .secondaryLabel
-        //****** checking the different screen sizes
-        let messageLableCenterYConstraints : CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? -100 : -150
-        messageLable.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant:messageLableCenterYConstraints).isActive = true
         
-        NSLayoutConstraint.activate([    messageLable.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 40),
+        //****** checking the different screen sizes
+        let messageLableCenterYConstraints : CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? -90 : -150
+        
+        
+        NSLayoutConstraint.activate([
+            messageLable.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant:messageLableCenterYConstraints),
+            messageLable.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 40),
             messageLable.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant:-40) ,
             messageLable.heightAnchor.constraint(equalToConstant: 200)
         ])
         
     }
+    
     
     func configurelogoImageView()  {
         addSubview(logoImageView)
@@ -61,8 +69,9 @@ class GFEmptyView: UIView {
         
         let logoImageViewCenterYConstraints : CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? 100 : 40
         
-        logoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: logoImageViewCenterYConstraints).isActive = true
+        
         NSLayoutConstraint.activate([ ///logo iMage constrains
+            logoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: logoImageViewCenterYConstraints),
             logoImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.3),
             //this is the view width self.widthAnchor
             // take view width then multiply it with 1.3 of the screen   this multipler  aspect ratio

@@ -20,14 +20,14 @@ class UserInfoVC: UIViewController {
     /*****************************************/
     //this scrollVIew i made to solve the iphoneSE samll screen speaces
     // i made a container view which will hold all the view then add this container viw to the scroll view
-    let scrollView   = UIScrollView()
-    let containerView    = UIView()
+    let scrollView               = UIScrollView()
+    let containerView            = UIView()
     //******************************************//
-    let headerView   = UIView() // explanation this header is the container for UserHeaderVC --> casue this UserHeaderVC is type VC i used it to make use of life cycle method and perform the composition which resolve MVC problem  i will add UserHeaderVC to headerView
+    let headerView               = UIView() // explanation this header is the container for UserHeaderVC --> casue this UserHeaderVC is type VC i used it to make use of life cycle method and perform the composition which resolve MVC problem  i will add UserHeaderVC to headerView
     
-    let itemViewOne   = UIView()
-    let itemViewTwo   = UIView()
-    let dateLable     = GFBodyLable(textAlignment: .center)
+    let itemViewOne              = UIView()
+    let itemViewTwo              = UIView()
+    let dateLable                = GFBodyLable(textAlignment: .center)
     
     
     var itemViewsList : [UIView] = [] // to put all this views in it to decrease the code
@@ -52,8 +52,6 @@ class UserInfoVC: UIViewController {
             switch result {
             case .success(let user):
                 DispatchQueue.main.async {self.configureUIElements(with : user )}
-                
-                
                 
             case .failure(let error): self.presentGFAlertyOnMainThread(title: "Something Went Wrong ", message: error.rawValue, buttonTitle: "OK")
                 break
@@ -84,16 +82,16 @@ class UserInfoVC: UIViewController {
         
         self.add(childVC :GFRepoItemVC(user: user, delegate: self) , to: self.itemViewOne)
 
-        let gfFollowers =  GFFollowersItemVC(user: user)
-            gfFollowers.delegate = self
+        let gfFollowers                  =  GFFollowersItemVC(user: user)
+            gfFollowers.delegate         = self
         self.add(childVC : gfFollowers , to: self.itemViewTwo)
         
-        self.dateLable.text = "GitHub since \(user.createdAt.convertToMonthYearFormate())"
+        self.dateLable.text              = "GitHub since \(user.createdAt.convertToMonthYearFormate())"
     }
     
     func configureViewControler() {
         
-        view.backgroundColor = .systemBackground // this to show ur view if u didn't put a color for background it will appears transparent empty screen
+        view.backgroundColor             = .systemBackground // this to show ur view if u didn't put a color for background it will appears transparent empty screen
         
         
         //**  i wil creat my cutom barbutton item
@@ -151,7 +149,7 @@ class UserInfoVC: UIViewController {
     func add(childVC : UIViewController , to containerView : UIView) {
         addChild(childVC)
         containerView.addSubview(childVC.view)
-        childVC.view.frame       = containerView.bounds
+        childVC.view.frame          = containerView.bounds
         childVC.didMove(toParent: self) // see help for more details about his method in a nutchel this must called if u create ur own container and added vc to it to make it interacte with the view
         
     }
@@ -167,7 +165,7 @@ class UserInfoVC: UIViewController {
 extension UserInfoVC : GFRepoItemVCDelegate{
     func didTapGitHubProfile(for user: User) {
         print("user profile taped ")
-        guard let url = URL(string: user.htmlUrl) else {
+        guard let url  = URL(string: user.htmlUrl) else {
             presentGFAlertyOnMainThread(title: "Invalid URl", message: "The URL attached to this user is invaled ", buttonTitle: "OK!")
             return
         }

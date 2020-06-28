@@ -10,10 +10,9 @@ import UIKit
 
 class FavouriteList: UIViewController {
     
-    
-    let tableView               = UITableView()
-    
+    let tableView                = UITableView()
     var favorites : [Follower]   = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +21,12 @@ class FavouriteList: UIViewController {
         configureTableView()
         
     }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         getFavorite()
     }
+    
     
     func configureViewControler() {
         view.backgroundColor = .systemBackground // adapte itself with the light and dark mode
@@ -34,30 +36,38 @@ class FavouriteList: UIViewController {
         
     }
     
+    
     func getFavorite(){
         PersistenceManger.retriveFavouries {[weak self] (result) in
             guard let self = self else {return}
             
             switch result {
-            case .success(let favouriteList ) :
-                //* we need to check if user don't have any favorite  then show him empty state
                 
-                if favouriteList.isEmpty {
-                    self.showEmpltyStateView(with: "No Favorites?\n You can add one on the Follower screen ", in: self.view)
-                }else{  self.favorites = favouriteList
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        //** here in case it enter empty stats first which means the user has no followers so u show showEmpltyStateView ok now showEmpltyStateView is on the top of the table view --- tableView is now hidden under it  if the user favorite someone and come back to see the favorite list u need to return table view on the top again to see the tableview see the vcode below
-                        self.view.bringSubviewToFront(self.tableView)
-                    }
-                }
-                
+            case .success(let favouriteList ) : self.updateUI(with: favouriteList)
                 
             case .failure(let error ) :
                 self.presentGFAlertyOnMainThread(title: "somthing went wrong ", message: error.rawValue, buttonTitle: "OK")
             }
             
         }
+    }
+    
+    
+    func updateUI(with favorites : [Follower]) {
+        
+        //* we need to check if user don't have any favorite  then show him empty state
+        
+        if favorites.isEmpty {
+            self.showEmpltyStateView(with: "No Favorites?\n You can add one on the Follower screen ", in: self.view)
+        }else{  self.favorites = favorites
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                //** here in case it enter empty stats first which means the user has no followers so u show showEmpltyStateView ok now showEmpltyStateView is on the top of the table view --- tableView is now hidden under it  if the user favorite someone and come back to see the favorite list u need to return table view on the top again to see the tableview see the vcode below
+                self.view.bringSubviewToFront(self.tableView)
+            }
+        }
+        
+        
     }
     
     
@@ -78,9 +88,11 @@ class FavouriteList: UIViewController {
 /////********************** TableView Exentions
 
 extension FavouriteList : UITableViewDelegate , UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favorites.count
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteCell.reuseID) as! FavoriteCell
@@ -91,11 +103,12 @@ extension FavouriteList : UITableViewDelegate , UITableViewDataSource {
         return cell
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //    let favorite = favorites[indexPath.row]
         
-        let followerVC   = FollowersListVC(username: favorites[indexPath.row].login!)
+        let followerVC       = FollowersListVC(username: favorites[indexPath.row].login!)
         
         followerVC.userName  = favorites[indexPath.row].login
         followerVC.title     = favorites[indexPath.row].login
@@ -109,18 +122,18 @@ extension FavouriteList : UITableViewDelegate , UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else {return }
-  
+        
         // first remove this user from the local array
         // second remove this user from the DataPersistent NSUserDefault
         
         
         ///** * ** * * ** *** * * you Must remove user from local array first then from th e table row because table row will reload th etableview immidiately if the array  not removed first it will throw exception
-       
+        
         
         PersistenceManger.updateWith(favourtie: favorites[indexPath.row], actionType: .remove) {[weak self] (error) in
-            guard let self = self else{return}
+            guard let self  = self else{return}
             guard let error = error else{
-        // there is no error here so detete from local storage first then the presestant
+                // there is no error here so detete from local storage first then the presestant
                 self.favorites.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .left)// delete the row from tthe table view without reloading th e table with
                 return

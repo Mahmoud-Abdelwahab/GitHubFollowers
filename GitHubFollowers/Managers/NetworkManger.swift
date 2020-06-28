@@ -7,12 +7,12 @@
 //
 
 import UIKit
+
 class NetworkManager {
     // singelton
     
     static let shared           = NetworkManager()
     private let baseURL          = "https://api.github.com/users/"
-    
     let cache                   = NSCache<NSString , UIImage>() // this for catching the image
     
     private init(){}
@@ -20,9 +20,7 @@ class NetworkManager {
     func  getFollowers(for userName : String , page : Int ,completed: @escaping (Result<[Follower] , GFError>) -> Void)  {
         ///users/:username/followers
         let endPoint            = baseURL + "\(userName)/followers?per_page=100&page=\(page)"
-        //   print(userName)
         
-        // print(endPoint)
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidUserName))
             return
@@ -38,7 +36,6 @@ class NetworkManager {
                 completed(.failure(.unableToComplete))
             }
             
-            
             // statusCode 200 mean everything is ok
             guard let response = response as? HTTPURLResponse , response.statusCode == 200 else {
                 
@@ -46,13 +43,11 @@ class NetworkManager {
                 return
             }
             
-            
             guard let data = data else{
                 completed(.failure(.invalidData))
                 return
             }
             // here there is no error here and we recieved the ressponse
-            
             
             do {      // decoder take data from the server and decode it in our object
                 // encoder take our object and converting it to data
@@ -134,8 +129,6 @@ class NetworkManager {
     func downloadImage(from urlString : String ,completed : @escaping (UIImage?)->Void){
         // to caching the image we need to add it to caching in the first time only
         // then in the secode time this func excuted we will never make the network call again so watch me hahah
-        
-        
         let cachKey = NSString(string: urlString) // the key in cache.object(forKey: cachKey)  is from type NSString so u need to converte string url to NSString
         if  let image = cache.object(forKey: cachKey){
             //we check if image is cached before so we will not make the network call agian

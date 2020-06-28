@@ -9,37 +9,41 @@
 import UIKit
 
 class GFAlertVC: UIViewController {
-    let containerView = GFAlertContainerAlert()
-    let titleLable = GFTitleLable(textAlignment: .center, fontSize: 20 )
-    let messageLable    = GFBodyLable(textAlignment: .center)
-    let actionBtn = GFButton(backgroundColor: .systemPink, title: "OK")
+    
+    let containerView           = GFAlertContainerAlert()
+    let titleLable              = GFTitleLable(textAlignment: .center, fontSize: 20 )
+    let messageLable            = GFBodyLable(textAlignment: .center)
+    let actionBtn               = GFButton(backgroundColor: .systemPink, title: "OK")
+    
     var  alertTitle  : String?
     var  message : String?
     var  buttonTitle : String?
     
+    
     init(alertTitle : String , message : String , buttonTitle : String){
         super.init(nibName : nil , bundle : nil)
-        self.alertTitle = alertTitle
-        self.message = message
-        self.buttonTitle = buttonTitle
+        self.alertTitle         = alertTitle
+        self.message            = message
+        self.buttonTitle        = buttonTitle
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
+        view.backgroundColor    = UIColor.black.withAlphaComponent(0.75)
         configuringContainerView()
         configureTitleView()
         configuringActionBtn()
         configureMessageLable()
     }
+    
     
     func configuringContainerView()  {
         view.addSubview(containerView)
@@ -73,6 +77,7 @@ class GFAlertVC: UIViewController {
         
     }
     
+    
     func configuringActionBtn(){
         containerView.addSubview(actionBtn)
         
@@ -99,7 +104,7 @@ class GFAlertVC: UIViewController {
         
         
         // set number of lines
-        messageLable.text = message ?? "unable to complete request "
+        messageLable.text       = message ?? "unable to complete request "
         
         messageLable.numberOfLines = 4
         

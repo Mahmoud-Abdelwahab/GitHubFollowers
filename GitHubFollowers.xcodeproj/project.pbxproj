@@ -151,6 +151,7 @@
 		BB2D4FEC24A1F07600AF8DA3 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				BB2D501524A4091A00AF8DA3 /* Cells */,
 				BB3B165824A8028E00D9B3B9 /* TabBarControler */,
 				BB34933F24A62A28006263E5 /* Lables */,
 				BB2D4FFC24A29BB500AF8DA3 /* GFAlert */,
@@ -260,7 +261,6 @@
 		BB34933724A5CC67006263E5 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				BB2D501524A4091A00AF8DA3 /* Cells */,
 				BB34933824A5CCAD006263E5 /* UserInfoVC */,
 				BB2D4FE724A1E19500AF8DA3 /* FavouriteList */,
 				BB2D4FF124A23FBE00AF8DA3 /* FollowersVC */,

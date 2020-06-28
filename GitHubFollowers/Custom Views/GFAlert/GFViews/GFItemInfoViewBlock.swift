@@ -20,14 +20,17 @@ class GFItemInfoViewBlock: UIView {
     let titleLable      = GFTitleLable(textAlignment: .left, fontSize: 14)
     let countlable      = GFTitleLable(textAlignment: .center, fontSize: 14)
     
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         configure()
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     private func configure(){
         
@@ -57,7 +60,6 @@ class GFItemInfoViewBlock: UIView {
         ])
         
     }
-    
     
     
     /// this function  to pass the component enum type then  customise the componente based on it
