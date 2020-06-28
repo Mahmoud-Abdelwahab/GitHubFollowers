@@ -36,7 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
         //*****  not that  you can change ViewController() as u want also u can but nav bar viewcontroler here to mage all app
-        window?.rootViewController = CreateTabBar()
+        window?.rootViewController = GFTabBarControler()
         
         window?.makeKeyAndVisible()
         
@@ -45,38 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     
     
-    //  to be more clear i separt them u can put then in onne funtion and pass some 4 params to it
-    func CreatSearchNavigationControler() -> UINavigationController {
-        let searchVc = SearchVC()
-         
-        searchVc.title = "Search"
-        
-        searchVc.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-        
-        return UINavigationController(rootViewController: searchVc)
-        
-    }
-    
-    func CreatFavouriteNavigationControler() -> UINavigationController {
-        let favoriteVC = FavouriteList()
-         
-        favoriteVC.title = "Search"
-        
-        favoriteVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
-        
-        return UINavigationController(rootViewController: favoriteVC)
-        
-    }
-    
-    /// crateTabBar
-    func CreateTabBar() ->UITabBarController {
-        let tabBar = UITabBarController()
-        UITabBar.appearance().tintColor = .systemGreen
-              tabBar.viewControllers = [CreatSearchNavigationControler() , CreatFavouriteNavigationControler()]
-        
-        
-        return tabBar
-    }
+  
     
     func configureNavigationBar()  {
         UINavigationBar.appearance().tintColor = .systemGreen

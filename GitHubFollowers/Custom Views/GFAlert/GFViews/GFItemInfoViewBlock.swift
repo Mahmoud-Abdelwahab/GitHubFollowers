@@ -15,8 +15,8 @@ enum ItemInfoType { //  we will use this block components 4 times so i have to d
 
 
 class GFItemInfoViewBlock: UIView {
-
-  let symbolImageView   = UIImageView()
+    
+    let symbolImageView   = UIImageView()
     let titleLable      = GFTitleLable(textAlignment: .left, fontSize: 14)
     let countlable      = GFTitleLable(textAlignment: .center, fontSize: 14)
     
@@ -29,7 +29,7 @@ class GFItemInfoViewBlock: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-   private func configure(){
+    private func configure(){
         addSubview(symbolImageView)
         addSubview(titleLable)
         addSubview(countlable)
@@ -37,24 +37,24 @@ class GFItemInfoViewBlock: UIView {
         symbolImageView.contentMode  = .scaleAspectFill
         symbolImageView.tintColor    = .label
         
-    NSLayoutConstraint.activate([
-        symbolImageView.topAnchor.constraint(equalTo: self.topAnchor),
-        symbolImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-        symbolImageView.heightAnchor.constraint(equalToConstant: 20),
-        symbolImageView.widthAnchor.constraint(equalToConstant: 20) ,
-        
-       
-        titleLable.centerYAnchor.constraint(equalTo: symbolImageView.centerYAnchor),
-        titleLable.leadingAnchor.constraint(equalTo: symbolImageView.trailingAnchor, constant: 12),
-        titleLable.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        titleLable.heightAnchor.constraint(equalToConstant: 18),// this is repetition casue centerYanchor solved this
-        
-        countlable.topAnchor.constraint(equalTo: symbolImageView.bottomAnchor, constant: 4),
-        countlable.leadingAnchor.constraint(equalTo: self.leadingAnchor), ///// u can remove these two add centerX
-        countlable.trailingAnchor.constraint(equalTo: self.trailingAnchor),/// u can remove these two add centerX
-        countlable.heightAnchor.constraint(equalToConstant: 18),
-        
-    ])
+        NSLayoutConstraint.activate([
+            symbolImageView.topAnchor.constraint(equalTo: self.topAnchor),
+            symbolImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            symbolImageView.heightAnchor.constraint(equalToConstant: 20),
+            symbolImageView.widthAnchor.constraint(equalToConstant: 20) ,
+            
+            
+            titleLable.centerYAnchor.constraint(equalTo: symbolImageView.centerYAnchor),
+            titleLable.leadingAnchor.constraint(equalTo: symbolImageView.trailingAnchor, constant: 12),
+            titleLable.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            titleLable.heightAnchor.constraint(equalToConstant: 18),// this is repetition casue centerYanchor solved this
+            
+            countlable.topAnchor.constraint(equalTo: symbolImageView.bottomAnchor, constant: 4),
+            countlable.leadingAnchor.constraint(equalTo: self.leadingAnchor), ///// u can remove these two add centerX
+            countlable.trailingAnchor.constraint(equalTo: self.trailingAnchor),/// u can remove these two add centerX
+            countlable.heightAnchor.constraint(equalToConstant: 18),
+            
+        ])
         
     }
     
@@ -65,30 +65,30 @@ class GFItemInfoViewBlock: UIView {
     func set (iteminfoType : ItemInfoType , withCount count : Int){
         switch iteminfoType {
         case .repo:
-            symbolImageView.image       = UIImage(systemName: SFSymbol.repos)
+            symbolImageView.image       = SFSymbol.repos
             titleLable.text             = "Public Repos"
             countlable.text             = String(count)
             break
-           
+            
         case .gists:
-            symbolImageView.image       = UIImage(systemName: SFSymbol.gists)
+            symbolImageView.image       = SFSymbol.gists
             titleLable.text             = "Public Gists"
             countlable.text             = String(count)
-
+            
             break
             
         case .followers:
-            symbolImageView.image       = UIImage(systemName: SFSymbol.followers)
+            symbolImageView.image       = SFSymbol.followers
             titleLable.text             = "Followers"
             countlable.text             = String(count)
-
+            
             break
             
         case .following:
-            symbolImageView.image       = UIImage(systemName: SFSymbol.following)
+            symbolImageView.image       = SFSymbol.following
             titleLable.text             = "Following"
             countlable.text             = String(count)
-
+            
             break
             
         }

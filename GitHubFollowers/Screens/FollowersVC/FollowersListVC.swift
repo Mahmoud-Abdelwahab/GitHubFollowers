@@ -13,18 +13,32 @@ protocol FollowerlistVCDelegate : class {
 }
 
 class FollowersListVC: UIViewController {
-    var page = 1
-    var hasMoreFolowers = true
-    var followersList : [Follower]=[]
-    var filterebFollowers : [Follower] = []
-    var isSearchActive = false
+    var page                             = 1
+    var hasMoreFolowers                  = true
+    var followersList : [Follower]       = []
+    var filterebFollowers : [Follower]   = []
+    var isSearchActive                   = false
+    var isLoadingMoreFollowers           = false
     enum Section{
         case main  // this cause we want one section
     }
     var userName : String?
     var collectionView : UICollectionView!
-             //   UICollectionViewDiffableDataSource this required hashable protocole to be conformed  enum for section is hashable by default
+    //   UICollectionViewDiffableDataSource this required hashable protocole to be conformed  enum for section is hashable by default
     var dataSource : UICollectionViewDiffableDataSource<Section , Follower>!
+    
+    init(username : String) {
+        super.init(nibName: nil, bundle: nil)
+        self.userName = username
+        self.title    = username
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+        //this is the storyboard inintializer
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,13 +47,14 @@ class FollowersListVC: UIViewController {
         configureCollectionView()
         getFollowers(username: userName!, pagenNumber: page)
         configureDataSource()
-      
-
+        
+        
     }
     
     @objc func addToFavourite() {
         print("favourite taped ")
         showLoadingView()
+        isLoadingMoreFollowers = true
         // i need to create follower object for the current user i but i don't have except his user name i need his avatar url also so do netwrok call
         NetworkManager.shared.getUserInfo(for: userName!) { [weak self] (result) in
             guard let mySelf = self else{return}
@@ -61,7 +76,7 @@ class FollowersListVC: UIViewController {
             case .failure(let error) :
                 mySelf.presentGFAlertyOnMainThread(title: "Somthing Went Wrong", message: error.rawValue, buttonTitle: "OK")
             }
-            
+            mySelf.isLoadingMoreFollowers = false
         }
         
     }
@@ -77,11 +92,11 @@ class FollowersListVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true // to make navigationbar title large
         
         //**  i wil creat my cutom barbutton item
-              
-              let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToFavourite))
-              
-              // now we want to add the done button to the navigationBar
-              navigationItem.rightBarButtonItem = addButton
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToFavourite))
+        
+        // now we want to add the done button to the navigationBar
+        navigationItem.rightBarButtonItem = addButton
     }
     
     func   getFollowers(username : String , pagenNumber : Int){
@@ -104,31 +119,31 @@ class FollowersListVC: UIViewController {
         showLoadingView()
         NetworkManager.shared.getFollowers(for: userName!, page:pagenNumber) { [weak self] (result) in
             // [unowned self] unowned force unwrabe self  but [weak self]  weak doe'snt unwrabe self
-          
-              guard let self = self else{return}
-              #warning("Call Dismiss ")
+            
+            guard let self = self else{return}
+            //   #warning("Call Dismiss ")
             
             
-              self.dismissLoadingView()
-                   
+            self.dismissLoadingView()
+            
             switch result
             {
             case . success(let followers) :
                 if followers.count < 100{ self.hasMoreFolowers = false} // self.hasMoreFolowers.toggle() this
-            self.followersList.append(contentsOf: followers) // append it to keep all pages in the collectionview
-            
-            if self.followersList.isEmpty{
-                // if the appended array is emplty show my custom emptyview
-                let message = "This User Dos'nt have any Followers😮"
-                DispatchQueue.main.async {
-                    self.showEmpltyStateView(with: message, in: self.view)
-                    return
+                self.followersList.append(contentsOf: followers) // append it to keep all pages in the collectionview
+                
+                if self.followersList.isEmpty{
+                    // if the appended array is emplty show my custom emptyview
+                    let message = "This User Dos'nt have any Followers😮"
+                    DispatchQueue.main.async {
+                        self.showEmpltyStateView(with: message, in: self.view)
+                        return
+                    }
                 }
-            }
-            
-            
-            self.updataData(on: self.followersList)
- // print(followers)  ;  print( "the followers count \(followers.count)")
+                
+                
+                self.updataData(on: self.followersList)
+                // print(followers)  ;  print( "the followers count \(followers.count)")
                 
             case .failure(let error):self.presentGFAlertyOnMainThread(title: "Bad Stuff happened ", message: error.rawValue, buttonTitle: "OK")
             }
@@ -152,7 +167,7 @@ class FollowersListVC: UIViewController {
     
     
     
-  
+    
     
     
     func configureDataSource() {
@@ -205,7 +220,7 @@ extension FollowersListVC : UICollectionViewDelegate{
     // UICollectionViewDelegate handel any actions in the collection view
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-       // ** we need to know when did we reach the end of the scroll view
+        // ** we need to know when did we reach the end of the scroll view
         let offsetY              = scrollView.contentOffset.y  // offsetY  this is how far u scrolled down
         let contentHeight        = scrollView.contentSize.height // the height of the entire scroll view  the big scrollview may be very large
         let screenHeight         = scrollView.frame.size.height //the height of the screen only
@@ -215,17 +230,22 @@ extension FollowersListVC : UICollectionViewDelegate{
         
         if(offsetY > (contentHeight -  screenHeight))
         {
-          
-           guard hasMoreFolowers else { return} // has not folowers false page will not incremented and network call will not excuted here
-               print(" *********************** Done ")
-                     print("offsetY            =       \(offsetY )")
-                     print("contentHeight      = \(contentHeight )")
-                     print("screenHeight       =  \(screenHeight )")
+            
+            guard hasMoreFolowers , !isLoadingMoreFollowers else { return} // has not folowers false page will not incremented and network call will not excuted here
+            // this guard will prevent chow internet pagination bug 
+            print(" *********************** Done ")
+            print("offsetY            =       \(offsetY )")
+            print("contentHeight      = \(contentHeight )")
+            print("screenHeight       =  \(screenHeight )")
             page += 1
             getFollowers(username: userName!, pagenNumber: page )
-      
+            
             
         }
+        
+        ///*** ** ***** ** ** ** ** * * * * * ** * * ** * * ** * * ****//
+        ///************************************************//
+        /// the is a big bug here the case is : if u have very slow internet connection and u scroll down to load more pages and scrolled another time bafore the first  request finished here is the problem so we need to prevent  user to make another call if  the data i still loading so i will make bool bar isLoadingMoreFollowers to check this case
     }
     
     
@@ -237,25 +257,32 @@ extension FollowersListVC : UICollectionViewDelegate{
         userInfoVC.userName = activeArray[indexPath.row].login
         userInfoVC.delegate = self 
         
-          //    self.present(userInfoVC, animated: true) print(activeArray[indexPath.row].login)
+        //    self.present(userInfoVC, animated: true) print(activeArray[indexPath.row].login)
         // recomended by appel to put done or cancel button in the modal which u prisent so i will crest nav controler to put buttons over it and presnt it
         let navigationBar = UINavigationController(rootViewController: userInfoVC)
-    // so here insted of presnsting the userInfoVc i made my custom navcontroler and presnt it  and in userinfoVc i will add my cutom buttons over it
+        // so here insted of presnsting the userInfoVc i made my custom navcontroler and presnt it  and in userinfoVc i will add my cutom buttons over it
         present(navigationBar, animated: true)
     }
-      
+    
 }
 
 
 
 ////********************* search controler delegate    **********************/
-                                                     // UISearchBarDelegate  to handel cancel button in the search bar
+// UISearchBarDelegate  to handel cancel button in the search bar
 extension FollowersListVC : UISearchResultsUpdating , UISearchBarDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
-        isSearchActive  = true
-        guard let filter = searchController.searchBar.text , !filter.isEmpty  else {return}
-        
+       
+        guard let filter = searchController.searchBar.text , !filter.isEmpty  else {
+            // this code handle a bug when u delelte  character by character from the search bar unti it becomes empty the displayed array will be the filltered so u will find bug when u click in some of the user cards
+            filterebFollowers.removeAll()
+            updataData(on: followersList)
+             isSearchActive  = false
+            return
+            
+             }
+         isSearchActive  = true
         filterebFollowers = followersList.filter{$0.login!.lowercased().contains(filter.lowercased())}
         // this called map reduce
         //$0 this is the follower object in every loop in the array
@@ -264,11 +291,11 @@ extension FollowersListVC : UISearchResultsUpdating , UISearchBarDelegate {
     
     //
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        isSearchActive = false
-         updataData(on: followersList)
-        
-    }
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        isSearchActive = false
+//        updataData(on: followersList)
+//
+//    }
     
 }
 
@@ -283,7 +310,11 @@ extension FollowersListVC : FollowerlistVCDelegate {
         page          = 1
         followersList.removeAll()
         filterebFollowers.removeAll()
-        collectionView.setContentOffset(.zero, animated: true)// this make collection view scroll to the top quickly  [if the collectionView scrolled to the botton then u go to userInfo so when u return back to show followers u need to scrol to the top quickly ]
+        //collectionView.setContentOffset(.zero, animated: true)// this make collection view scroll to the top quickly  [if the collectionView scrolled to the botton then u go to userInfo so when u return back to show followers u need to scrol to the top quickly ]
+        
+        /**   but this   collectionView.setContentOffset(.zero, animated: true) move it the zero but we want to show searchBar also so we will scrol not just move to the row zero  and there is function lkie it in th tableview insted of item  ---> row  */
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0),at:.top,animated:  true)
+        
         
         getFollowers(username: username, pagenNumber: page)
     }

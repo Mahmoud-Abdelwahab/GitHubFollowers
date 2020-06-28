@@ -17,11 +17,11 @@ class GFUserHeaderVC: UIViewController {
     let bioLable        = GFBodyLable(textAlignment: .left)
     
     var user :  User!
-
-     init(user:User){
+    
+    init(user:User){
         super.init(nibName : nil , bundle : nil)
         self.user  = user
-          }
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -36,13 +36,13 @@ class GFUserHeaderVC: UIViewController {
         configureUIElements()
     }
     func configureUIElements(){
-        avatarImageView.downloadImage(from: user.avatarUrl!)
+        downloadAvatarImage()
         usernameLable.text = user.login
         nameLable.text = user.name ?? ""
         locationLable.text = user.location ?? "No Location"
         bioLable.text      = user.bio ?? "No Bio Available"
         bioLable.numberOfLines = 3
-        locationImageView.image = UIImage(systemName: SFSymbol.location)
+        locationImageView.image = SFSymbol.location
         locationImageView.tintColor = .secondaryLabel
         
     }
@@ -62,14 +62,14 @@ class GFUserHeaderVC: UIViewController {
         locationImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
+            
             avatarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: padding),
             avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             avatarImageView.heightAnchor.constraint(equalToConstant: 90),
             avatarImageView.widthAnchor.constraint(equalToConstant: 90),
             
             // usename constraints
-                                                      // the top to be aligned with avatarimage
+            // the top to be aligned with avatarimage
             usernameLable.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
             usernameLable.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: textAvatarRightPadding),
             usernameLable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -97,6 +97,13 @@ class GFUserHeaderVC: UIViewController {
             bioLable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bioLable.heightAnchor.constraint(equalToConstant:60)
         ])
+    }
+    
+    func  downloadAvatarImage(){
+        NetworkManager.shared.downloadImage(from: user.avatarUrl!) {[weak self] (image) in
+            guard let self = self else {return}
+            DispatchQueue.main.async {self.avatarImageView.image = image}
+        }
     }
     
 }

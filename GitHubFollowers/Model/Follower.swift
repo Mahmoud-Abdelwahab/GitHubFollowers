@@ -10,7 +10,7 @@ import Foundation
 
 struct Follower : Codable , Hashable {
     var login : String?
-   // var avatar_url : String  // not codebel the var must be the same as in the api
+    // var avatar_url : String  // not codebel the var must be the same as in the api
     // [ but ] if there is _ underscore in the var u can write it in the camelCase
     // avatar_url ---> [avatarUrl] only this and codable automaticaly convert
     // sanck_case to camelCase
@@ -20,8 +20,8 @@ struct Follower : Codable , Hashable {
     
     /// if u want to make only on variable is hashable  shoe the below code
     
-//    func hash(into hasher : inout Hasher) {
-//        hasher.combine(login)
-//    }
+    //    func hash(into hasher : inout Hasher) {
+    //        hasher.combine(login)
+    //    }
     
 }

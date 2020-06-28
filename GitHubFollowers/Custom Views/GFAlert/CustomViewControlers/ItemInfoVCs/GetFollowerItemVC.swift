@@ -17,7 +17,7 @@
 ///********************************************************************
 class GFFollowerItemVC : GFItemInfoVCSuperClass {
     override func viewDidLoad() {
-       super.viewDidLoad() // this is a must to call viewDidLoad from the parent 
+        super.viewDidLoad() // this is a must to call viewDidLoad from the parent 
         configureItems()
     }
     
@@ -27,6 +27,6 @@ class GFFollowerItemVC : GFItemInfoVCSuperClass {
         actionButton.set(backgroundColor: .systemGreen, title: "Get Followers")
     }
     override func actionButtonTaped() {
-           delegate.didTapGetFollowers(for: user)
-       }
+        delegate.didTapGetFollowers(for: user)
+    }
 }

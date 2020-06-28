@@ -8,7 +8,7 @@
 
 import UIKit
 
- ///****** this enum for detecting the action that u want  to do [ adding to user defaault or removingg from user default
+///****** this enum for detecting the action that u want  to do [ adding to user defaault or removingg from user default
 enum PersistenceActionType {
     case add , remove
 }
@@ -27,7 +27,7 @@ enum PersistenceManger { //*** here i used enum you can use structe as u like bu
     static private let defaults = UserDefaults.standard
     
     // retrive array of favourit --> followers
-
+    
     static func retriveFavouries(completed : @escaping (Result<[Follower] , GFError>) -> Void ){
         
         guard  let favouritesData = defaults.object(forKey: Keys.favouriteKey) as? Data else {
@@ -43,8 +43,8 @@ enum PersistenceManger { //*** here i used enum you can use structe as u like bu
         }catch{
             //here there is an error in decodeing the favourite
             completed(.failure(.unableToFavourite))
-             
-              }
+            
+        }
         
         
     }
@@ -85,7 +85,7 @@ enum PersistenceManger { //*** here i used enum you can use structe as u like bu
                 
                 switch actionType {
                 case .add:
-                      // after adding i want to check if it exists before or not
+                    // after adding i want to check if it exists before or not
                     guard  !retrivedFavourties.contains(favourtie) else {
                         completion(.alreadyInFavourite)
                         return
@@ -98,7 +98,7 @@ enum PersistenceManger { //*** here i used enum you can use structe as u like bu
                     retrivedFavourties.removeAll { $0.login == favourtie.login }
                 }
                 // here after performing add or remove operations then u need to save it finally
-               completion( savingFavourite(favourites: retrivedFavourties) )
+                completion( savingFavourite(favourites: retrivedFavourties) )
                 
             case .failure(let error) : completion(error)
             }

@@ -75,7 +75,7 @@ class UserInfoVC: UIViewController {
         
         self.add(childVC : gFFollowerItemVC , to: self.itemViewTwo)
         
-        self.dateLable.text = "GitHub since \(user.createdAt.convertToDisplayFormate())"
+        self.dateLable.text = "GitHub since \(user.createdAt.convertToMonthYearFormate())"
     }
     
     func configureViewControler() {
